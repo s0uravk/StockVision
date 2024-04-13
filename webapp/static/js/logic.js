@@ -143,11 +143,28 @@ function renderTopGainers() {
   // Define the API endpoint URL
   var apiUrl = `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${api_key}`;
   console.log(apiUrl)
+
   d3.json(apiUrl).then(response=>{
     console.log(response.top_gainers)
-    top_gainers = response.top_gainers.slice(0,5)
+    //top_gainers = response.top_gainers.slice(0,5)
+    
+    //Test Data
+    const top_gainers = [
+      { ticker: "AAPL", change_percentage: "5.223%" },
+      { ticker: "TSLA", change_percentage: "3.223%" },
+      { ticker: "MSFT", change_percentage: "4.5%" },
+      { ticker: "COOP", change_percentage: "5%" },
+      { ticker: "AMEX", change_percentage: "3%" },
+      { ticker: "DAL", change_percentage: "4.5%" },
+      { ticker: "BAC", change_percentage: "5%" },
+      { ticker: "MRNA", change_percentage: "3%" },
+      { ticker: "GM", change_percentage: "4.5%" },
+      { ticker: "RBC", change_percentage: "5%" },
+      { ticker: "TD", change_percentage: "3%" },
+      { ticker: "VISA", change_percentage: "4.5%" }
+    ];
      // Loop through top gainers data and create list items
-    top_gainers.forEach(function(d) {
+    top_gainers.slice(0,5).forEach(function(d) {
       var gainerBlock = d3.select("#topGainersList").append("div").classed("gainerBlock", true);
       //gainerBlock.append("div").text(d.ticker);
       gainerBlock.append("div").text(d.ticker + " (" + Number(d.change_percentage.replace("%", "")).toFixed(2) + "%)" + " ▲");

@@ -44,6 +44,7 @@ body {
   background-color:rgb(31, 75, 82);
 }
 
+
 /* Info panel styles */
 #info {
   margin-top: 20px;
@@ -52,27 +53,27 @@ body {
   padding: 30px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 310px;
-}
-
-#news h4 {
-  color:  rgb(179, 245, 216);
-}
-#news {
-  margin-top: 10px;
-  background-color: rgb(31, 75, 82);
-  color: rgb(179, 245, 216);
-  padding: 30px;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 400px;
-  border: 1px solid #ccc;
+  height: 400px; /* Adjust the height as needed */
 }
 
 #info h4 {
   color:  rgb(179, 245, 216);
 }
 
+/* News panel styles */
+#news {
+  margin-top: 20px;
+  background-color: rgb(31, 75, 82);
+  color: rgb(179, 245, 216);
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 400px; /* Adjust the height as needed */
+}
+
+#news h4 {
+  color:  rgb(179, 245, 216);
+}
 /* Line chart styles */
 #line_chart {
   width: 100%;
@@ -139,28 +140,6 @@ body {
   background-color:rgb(31, 75, 82);
 }
 
-/* Info panel styles */
-#info {
-  margin-top: 20px;
-  background-color: rgb(31, 75, 82);
-  color: rgb(179, 245, 216);
-  padding: 30px;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 310px;
-}
-
-#info h4 {
-  color:  rgb(179, 245, 216);
-}
-
-/* Line chart styles */
-#line_chart {
-  width: 100%;
-  height: 400px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
 
 /* Bootstrap overrides */
 .btn-primary {
@@ -181,7 +160,10 @@ body {
   background-color: rgb(31, 75, 82);
   color: rgb(179, 245, 216);
 }
+/* Top Gainers panel styles */
 #topGainersPanel {
+  width: 100%;
+  overflow: hidden;
   background-color: #f0f0f0;
   padding: 10px;
   border: 1px solid #ccc;

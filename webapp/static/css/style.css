@@ -3,7 +3,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color:  rgb(255, 255, 255);
+  background-color:  #000508;
 }
 
 .container {
@@ -32,24 +32,24 @@ body {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  border: 2px solid rgb(31, 75, 82);
+  border: 2px solid #074a7e;
   border-radius: 5px;
-  background-color: rgb(31, 75, 82);
+  background-color: #074a7e;
   margin-bottom: 20px;
-  color:rgb(179, 245, 216);
+  color:white;
   outline: none;
 }
 
 .selectCSS option {
-  background-color:rgb(31, 75, 82);
+  background-color:#074a7e;
 }
 
 
 /* Info panel styles */
 #info {
   margin-top: 20px;
-  background-color: rgb(31, 75, 82);
-  color: rgb(179, 245, 216);
+  background-color: #074a7e;
+  color: white;
   padding: 30px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -57,14 +57,14 @@ body {
 }
 
 #info h4 {
-  color:  rgb(179, 245, 216);
+  color:  white;
 }
 
 /* News panel styles */
 #news {
   margin-top: 20px;
-  background-color: rgb(31, 75, 82);
-  color: rgb(179, 245, 216);
+  background-color: #074a7e;
+  color: white;
   padding: 30px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -72,7 +72,7 @@ body {
 }
 
 #news h4 {
-  color:  rgb(179, 245, 216);
+  color:  white;
 }
 /* Line chart styles */
 #line_chart {
@@ -98,8 +98,8 @@ body {
 }
 
 .jumbotron{
-  background-color: rgb(31, 75, 82);
-  color: rgb(179, 245, 216);
+  background-color: #074a7e;
+  color: white;
 }
 
 .container {
@@ -128,16 +128,16 @@ body {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  border: 2px solid rgb(31, 75, 82);
+  border: 2px solid #074a7e;
   border-radius: 5px;
-  background-color: rgb(31, 75, 82);
+  background-color: #074a7e;
   margin-bottom: 20px;
-  color:rgb(179, 245, 216);
+  color:white;
   outline: none;
 }
 
 .selectCSS option {
-  background-color:rgb(31, 75, 82);
+  background-color:#074a7e;
 }
 
 
@@ -157,16 +157,20 @@ body {
 }
 
 .jumbotron{
-  background-color: rgb(31, 75, 82);
-  color: rgb(179, 245, 216);
+  background-color: #074a7e;
+  color: white;
 }
 /* Top Gainers panel styles */
 #topGainersPanel {
   width: 100%;
   overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: #074a7e;
   padding: 10px;
+  color : #ccc;
   border: 1px solid #ccc;
+}
+#topGainersList{
+  color: black;
 }
 .gainerBlock {
   display: inline-block;
@@ -178,41 +182,63 @@ body {
   color: green;
   font-weight: bold;
 }
-@keyframes slideFromSide {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
 
-/* Styling for the app container */
 .app-container {
+  position: relative; /* Make it a positioning context for absolute positioning */
   width: 100%;
   height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgb(31, 75, 82); /* Change to your desired background color */
-  text-align: center;
-  color: rgb(179, 245, 216);
+  background-image: url('../images/stock.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left;
+  text-align: left;
+  color: rgb(242, 242, 245);
 }
 
-/* Styling for the app name and description */
-.app-name, .description {
-  font-weight: bold;
-  animation: slideFromSide 1s ease-out;
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Apply blur to overlay */
+  background-image: url('../images/stock.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left;
+  filter: blur(10px);
 }
+
 
 .app-name {
-  font-size: 5.5em; /* Larger text size for the app name */
+  font-size: 5.5em;
+  z-index: 1; /* Ensure text is above the overlay */
 }
 
 .description {
-  font-size: 3.2em; /* Appropriate size for the description */
-  margin-top: 20px; /* Space between the app name and description */
+  font-size: 2.0em;
+  margin-top: 20px;
+  z-index: 1; /* Ensure text is above the overlay */
 }
+.app-name, .description {
+  opacity: 0; 
+  animation: slideFromLeft 1s ease-out forwards;
+}
+
+
+@keyframes slideFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+

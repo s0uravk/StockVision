@@ -41,17 +41,10 @@
     
     <div class = "row">
       <div class="app-container">
+        <div class="overlay"></div>
         <h1 class="app-name">StockVision</h1>
         <p class="description">A webapp which analyzes historical stock market data and predicts future trends.</p>
       </div>
-      <!-- <div class="jumbotron rounded-5">
-        <h1 class="display-4">StockVision</h1>
-        <p class="lead">A webapp which analyze historical stock market data and predict future trends.</p>
-        <hr class="my-4">
-        <p></p>
-        <p class="lead">
-      </p>
-      </div> -->
     </div>
     <div class = "row">
       <div id="topGainersPanel">
@@ -62,7 +55,7 @@
     <div class = "row">
       
       <div class="col-12">
-        <h5>Ticker:</h5>
+        <h5 style="color : #ccc;">Ticker:</h5>
         <select id = 'selDataset' class = 'selectCSS' onchange = "optionChanged(this.value)"></select> 
       </div>
     </div>
@@ -73,7 +66,7 @@
 
       </div>
       <div class="col-6">
-        <div style="color : white;">s</div>
+        <div style="color : #000508;">s</div>
         <!-- The div that holds our map -->
         <div id="line_chart"></div>
       </div>

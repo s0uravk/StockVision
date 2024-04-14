@@ -146,8 +146,9 @@ function renderTopGainers() {
 
   d3.json(apiUrl).then(response=>{
     console.log(response.top_gainers)
-    //top_gainers = response.top_gainers.slice(0,5)
-    
+    // top_gainers = response.top_gainers.slice(0,5)
+    // top_losers = response.top_losers.slice(0,5)
+
     //Test Data
     const top_gainers = [
       { ticker: "AAPL", change_percentage: "5.223%" },
@@ -164,10 +165,13 @@ function renderTopGainers() {
       { ticker: "VISA", change_percentage: "4.5%" }
     ];
      // Loop through top gainers data and create list items
-    top_gainers.slice(0,5).forEach(function(d) {
+    top_gainers.forEach(function(d) {
       var gainerBlock = d3.select("#topGainersList").append("div").classed("gainerBlock", true);
-      //gainerBlock.append("div").text(d.ticker);
       gainerBlock.append("div").text(d.ticker + " (" + Number(d.change_percentage.replace("%", "")).toFixed(2) + "%)" + " ▲");
+  });
+    top_gainers.forEach(function(d) {
+      var loserBlock = d3.select("#topLosersList").append("div").classed("loserBlock", true);
+      loserBlock.append("div").text(d.ticker + " (" + Number(d.change_percentage.replace("%", "")).toFixed(2) + "%)" + " ▼");
   });
   })
 

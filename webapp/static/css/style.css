@@ -68,7 +68,7 @@ body {
   padding: 30px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 400px; /* Adjust the height as needed */
+  height: auto; /* Adjust the height as needed */
 }
 
 #news h4 {
@@ -177,12 +177,39 @@ body {
   margin-right: 10px;
   padding: 5px;
   background-color: lightgreen;
-}
-.gainerSymbol {
-  color: green;
-  font-weight: bold;
+  border-radius: 30px; /* Adjust this value to increase or decrease the roundness */
+  margin-bottom: 5px; /* Optional: adds space between the divs */
 }
 
+/* Top Gainers panel styles */
+#topGainersPanel {
+  width: 100%;
+  overflow: hidden;
+  background-color: #074a7e;
+  padding: 10px;
+  color : #ccc;
+  border: 1px solid #ccc;
+}
+#topLosersList{
+  color: black;
+}
+.loserBlock {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 5px;
+  background-color: #f44336;
+  border-radius: 30px; /* Adjust this value to increase or decrease the roundness */
+  margin-bottom: 5px; /* Optional: adds space between the divs */
+}
+
+#topLosersPanel {
+  width: 100%;
+  overflow: hidden;
+  background-color: #074a7e;
+  padding: 10px;
+  color : #ccc;
+  border: 1px solid #ccc;
+}
 .app-container {
   position: relative; /* Make it a positioning context for absolute positioning */
   width: 100%;
@@ -240,5 +267,3 @@ body {
     opacity: 1;
   }
 }
-
-

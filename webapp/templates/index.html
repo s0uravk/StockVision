@@ -5,8 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Stock Data Analysis</title>
+  <link rel="shortcut icon" type="image/png" href="../static/images/favicon.png">
 
+  <title>StockVision</title>
   <!-- D3 library -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
@@ -23,6 +24,8 @@
   <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
   <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.stock.min.js"></script>
   <script src="https://canvasjs.com/assets/script/jquery-ui.1.12.1.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 
   <!-- Canvas CSS-->
   <link rel="stylesheet" href="https://canvasjs.com/assets/css/jquery-ui.1.12.1.min.css">
@@ -43,7 +46,7 @@
       <div class="app-container">
         <div class="overlay"></div>
         <h1 class="app-name">StockVision</h1>
-        <p class="description">A webapp which analyzes historical stock market data and predicts future trends.</p>
+        <p class="description">Predicting Profits with Precision.</p>
       </div>
     </div>
     <div class="row">
@@ -77,15 +80,18 @@
 
       </div>
       <div class="col-9">
-        <div style="color : #000508;">s</div>
+        <div style="color : #000508;">#</div>
         <!-- The div that holds our map -->
         <div id="line_chart"></div>
       </div>
     </div>
     <div class = "row">
       <div class="col-12">
-       <!-- The div that holds our map -->
-        <div id="news"></div>
+        <!-- The div that holds our news -->
+        <div id="news">
+          <h3 style="text-align: center;">Daily News Update</h3>
+          <hr>
+        </div>
       </div>
 
     </div>
@@ -198,9 +204,9 @@
   
   <!-- Our JavaScript files -->  
   <script src="{{url_for('static', filename = 'js/logic.js')}}"></script>   <!-- Candle Stick Chart -->
-  <script src="{{url_for('static', filename = 'js/logic2.js')}}"></script>   <!--Doughnut Chart -->
-  <script src="{{url_for('static', filename = 'js/logic1.js')}}"></script>  <!-- Correlation Heatmap  -->
-  <script src="../static/js/total_vol.js"></script>                         <!-- Grouped Bar Chart
+  <!-- <script src="{{url_for('static', filename = 'js/logic2.js')}}"></script>   <!--Doughnut Chart -->
+  <!-- <script src="{{url_for('static', filename = 'js/logic1.js')}}"></script>  <!-- Correlation Heatmap  -->
+  <!-- <script src="../static/js/total_vol.js"></script>                         <!-- Grouped Bar Chart
  
 </body>
 

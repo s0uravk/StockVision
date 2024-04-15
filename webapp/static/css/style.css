@@ -267,19 +267,33 @@ body {
   margin-top: 20px;
   z-index: 1; /* Ensure text is above the overlay */
 }
-.app-name, .description {
+.app-name {
   opacity: 0; 
   animation: slideFromLeft 1s ease-out forwards;
 }
-
+.description {
+  opacity: 0; 
+  animation: slideFromRight 1s ease-out forwards;
+}
 
 @keyframes slideFromLeft {
   from {
-    transform: translateX(-100%);
+    transform: translateY(-100%);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideFromRight {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
     opacity: 1;
   }
 }

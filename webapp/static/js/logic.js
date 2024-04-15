@@ -36,46 +36,66 @@ d3.json('/api/v1.0/stock_data/summary').then(response =>{
 
 });
 
-//Candle stick chart
+//Line chart
 function createChart(data, dataset){
-    let dataPoints = []
-    let selData = data.filter(row => row.Ticker == dataset);
+  let dataPoints = []
+  let selData = data.filter(row => row.Ticker == dataset);
 
-    selData.forEach(element => {
-        let open = Number(element.Open);
-        let high = Number(element.High);
-        let low = Number(element.Low);
-        let close = Number(element.Close);
-        //dataPoints.push({x: new Date(data[i].date), y: Number(data[i].price)});
-        dataPoints.push({x: new Date(element.Date), y: close});
-        //dps2.push({x: new Date(element.Date), y: close});
-        
-    });
-   
-    var stockChart = new CanvasJS.StockChart("line_chart",{
-      title:{
-        text:`${dataset} Price (in USD)`
-      },
-      charts: [{
-        data: [{
-          type: "splineArea",
-          color: "#3698C5",
-          yValueFormatString: "$1 = $#,###.##",
-          dataPoints : dataPoints
-        }]
-      }],
-      navigator: {
-        slider: {
-          minimum: new Date(2020, 12, 0o1),
-          maximum: new Date(2022, 0o3, 0o1)
-        }
+  selData.forEach(element => {
+      let open = Number(element.Open);
+      let high = Number(element.High);
+      let low = Number(element.Low);
+      let close = Number(element.Close);
+      //dataPoints.push({x: new Date(data[i].date), y: Number(data[i].price)});
+      dataPoints.push({x: new Date(element.Date), y: close});
+      //dps2.push({x: new Date(element.Date), y: close});
+      
+  });
+  var thresholdDate = new Date(2022, 6, 6);
+
+  // Create arrays to hold data points for each color range
+  var dataPointsBeforeThreshold = [];
+  var dataPointsAfterThreshold = [];
+  
+  // Iterate through data points and separate them based on the threshold date
+  dataPoints.forEach(function(point) {
+    if (point.x <= thresholdDate) {
+      dataPointsBeforeThreshold.push(point); // Add to array for points before threshold
+    } else {
+      dataPointsAfterThreshold.push(point); // Add to array for points after threshold
+    }
+  });
+  
+  // Define the CanvasJS StockChart
+  var stockChart = new CanvasJS.StockChart("line_chart", {
+    title: {
+      text: `${dataset} Price (in USD)`
+    },
+    charts: [{
+      data: [{
+        type: "splineArea",
+        color: "blue", // Color for area before threshold
+        yValueFormatString: "$#,###.##",
+        dataPoints: dataPointsBeforeThreshold
+      }, {
+        type: "splineArea",
+        color: "cyan", // Color for area after threshold
+        yValueFormatString: "$#,###.##",
+        dataPoints: dataPointsAfterThreshold
+      }]
+    }],
+    navigator: {
+      slider: {
+        minimum: new Date(2020, 11, 1),
+        maximum: new Date(2024, 2, 1)
       }
-    });
-
-    d3.select('line_chart').html('');
-
-    stockChart.render();
-
+    }
+  });
+  
+  // Render the chart
+  stockChart.render();
+  
+  
 };
 //Info Panel
 function infoPanel(dataset){
@@ -122,7 +142,9 @@ function news(dataset){
       var div = d3.select('#news').append('div');
 
       // Append related, summary, and headline to the div
-      div.append('p').text('Ticker: ' + response[0].related);
+      div.append('h3').style('text-align', 'center').text('Daily News Update')
+      div.append('hr')
+      div.append('p').text('Ticker: ' + response[0].related + ' (' + new Date(response[0].datetime * 1000).toDateString() + ')');
       div.append('p').text('Headline: ' + response[0].headline);
       div.append('p').text('Summary: ' + response[0].summary);
 
@@ -145,7 +167,7 @@ function renderTopGainers() {
   console.log(apiUrl)
 
   d3.json(apiUrl).then(response=>{
-    console.log(response.top_gainers)
+    // console.log(response.top_gainers)
     // top_gainers = response.top_gainers.slice(0,5)
     // top_losers = response.top_losers.slice(0,5)
 

@@ -164,12 +164,26 @@ function renderTopGainers() {
       { ticker: "TD", change_percentage: "3%" },
       { ticker: "VISA", change_percentage: "4.5%" }
     ];
+    const top_losers = [
+      { ticker: "IOT", change_percentage: "5.223%" },
+      { ticker: "JPM", change_percentage: "3.223%" },
+      { ticker: "DIS", change_percentage: "4.5%" },
+      { ticker: "NFLX", change_percentage: "5%" },
+      { ticker: "NVDA", change_percentage: "3%" },
+      { ticker: "ABC", change_percentage: "4.5%" },
+      { ticker: "OPA", change_percentage: "5%" },
+      { ticker: "LOL", change_percentage: "3%" },
+      { ticker: "UFT", change_percentage: "4.5%" },
+      { ticker: "UFM", change_percentage: "5%" },
+      { ticker: "SCOTIA", change_percentage: "3%" },
+      { ticker: "CLX", change_percentage: "4.5%" }
+    ];
      // Loop through top gainers data and create list items
     top_gainers.forEach(function(d) {
       var gainerBlock = d3.select("#topGainersList").append("div").classed("gainerBlock", true);
       gainerBlock.append("div").text(d.ticker + " (" + Number(d.change_percentage.replace("%", "")).toFixed(2) + "%)" + " ▲");
   });
-    top_gainers.forEach(function(d) {
+    top_losers.forEach(function(d) {
       var loserBlock = d3.select("#topLosersList").append("div").classed("loserBlock", true);
       loserBlock.append("div").text(d.ticker + " (" + Number(d.change_percentage.replace("%", "")).toFixed(2) + "%)" + " ▼");
   });

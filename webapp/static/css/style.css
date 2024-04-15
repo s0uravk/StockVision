@@ -177,19 +177,35 @@ body {
   margin-right: 10px;
   padding: 5px;
   background-color: lightgreen;
-  border-radius: 30px; /* Adjust this value to increase or decrease the roundness */
-  margin-bottom: 5px; /* Optional: adds space between the divs */
+  border-radius: 30px;
+  margin-bottom: 5px;
 }
 
-/* Top Gainers panel styles */
 #topGainersPanel {
   width: 100%;
   overflow: hidden;
   background-color: #074a7e;
   padding: 10px;
-  color : #ccc;
+  color: #ccc;
   border: 1px solid #ccc;
 }
+
+#topGainersMarquee {
+  display: flex;
+  white-space: nowrap;
+  animation: scroll-left 15s linear infinite;
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
 #topLosersList{
   color: black;
 }

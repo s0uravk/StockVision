@@ -226,6 +226,27 @@ body {
   color : #ccc;
   border: 1px solid #ccc;
 }
+
+#topTradedList{
+  color: black;
+}
+.tradedBlock {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 30px; /* Adjust this value to increase or decrease the roundness */
+  margin-bottom: 5px; /* Optional: adds space between the divs */
+}
+
+#topTradedPanel {
+  width: 100%;
+  overflow: hidden;
+  background-color: #074a7e;
+  padding: 10px;
+  color : #ccc;
+  border: 1px solid #ccc;
+}
 .app-container {
   position: relative; /* Make it a positioning context for absolute positioning */
   width: 100%;

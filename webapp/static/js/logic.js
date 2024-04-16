@@ -168,38 +168,39 @@ function renderTopGainers() {
 
   d3.json(apiUrl).then(response=>{
     // console.log(response.top_gainers)
-    // top_gainers = response.top_gainers.slice(0,5)
-    // top_losers = response.top_losers.slice(0,5)
-
+    top_gainers = response.top_gainers
+    top_losers = response.top_losers
+    most_traded = response.most_actively_traded
+    console.log(most_traded)
     //Test Data
-    const top_gainers = [
-      { ticker: "AAPL", change_percentage: "5.223%" },
-      { ticker: "TSLA", change_percentage: "3.223%" },
-      { ticker: "MSFT", change_percentage: "4.5%" },
-      { ticker: "COOP", change_percentage: "5%" },
-      { ticker: "AMEX", change_percentage: "3%" },
-      { ticker: "DAL", change_percentage: "4.5%" },
-      { ticker: "BAC", change_percentage: "5%" },
-      { ticker: "MRNA", change_percentage: "3%" },
-      { ticker: "GM", change_percentage: "4.5%" },
-      { ticker: "RBC", change_percentage: "5%" },
-      { ticker: "TD", change_percentage: "3%" },
-      { ticker: "VISA", change_percentage: "4.5%" }
-    ];
-    const top_losers = [
-      { ticker: "IOT", change_percentage: "5.223%" },
-      { ticker: "JPM", change_percentage: "3.223%" },
-      { ticker: "DIS", change_percentage: "4.5%" },
-      { ticker: "NFLX", change_percentage: "5%" },
-      { ticker: "NVDA", change_percentage: "3%" },
-      { ticker: "ABC", change_percentage: "4.5%" },
-      { ticker: "OPA", change_percentage: "5%" },
-      { ticker: "LOL", change_percentage: "3%" },
-      { ticker: "UFT", change_percentage: "4.5%" },
-      { ticker: "UFM", change_percentage: "5%" },
-      { ticker: "SCOTIA", change_percentage: "3%" },
-      { ticker: "CLX", change_percentage: "4.5%" }
-    ];
+    // const top_gainers = [
+    //   { ticker: "AAPL", change_percentage: "5.223%" },
+    //   { ticker: "TSLA", change_percentage: "3.223%" },
+    //   { ticker: "MSFT", change_percentage: "4.5%" },
+    //   { ticker: "COOP", change_percentage: "5%" },
+    //   { ticker: "AMEX", change_percentage: "3%" },
+    //   { ticker: "DAL", change_percentage: "4.5%" },
+    //   { ticker: "BAC", change_percentage: "5%" },
+    //   { ticker: "MRNA", change_percentage: "3%" },
+    //   { ticker: "GM", change_percentage: "4.5%" },
+    //   { ticker: "RBC", change_percentage: "5%" },
+    //   { ticker: "TD", change_percentage: "3%" },
+    //   { ticker: "VISA", change_percentage: "4.5%" }
+    // ];
+    // const top_losers = [
+    //   { ticker: "IOT", change_percentage: "5.223%" },
+    //   { ticker: "JPM", change_percentage: "3.223%" },
+    //   { ticker: "DIS", change_percentage: "4.5%" },
+    //   { ticker: "NFLX", change_percentage: "5%" },
+    //   { ticker: "NVDA", change_percentage: "3%" },
+    //   { ticker: "ABC", change_percentage: "4.5%" },
+    //   { ticker: "OPA", change_percentage: "5%" },
+    //   { ticker: "LOL", change_percentage: "3%" },
+    //   { ticker: "UFT", change_percentage: "4.5%" },
+    //   { ticker: "UFM", change_percentage: "5%" },
+    //   { ticker: "SCOTIA", change_percentage: "3%" },
+    //   { ticker: "CLX", change_percentage: "4.5%" }
+    // ];
      // Loop through top gainers data and create list items
     top_gainers.forEach(function(d) {
       var gainerBlock = d3.select("#topGainersList").append("div").classed("gainerBlock", true);
@@ -208,6 +209,10 @@ function renderTopGainers() {
     top_losers.forEach(function(d) {
       var loserBlock = d3.select("#topLosersList").append("div").classed("loserBlock", true);
       loserBlock.append("div").text(d.ticker + " (" + Number(d.change_percentage.replace("%", "")).toFixed(2) + "%)" + " ▼");
+  });
+    most_traded.forEach(function(d) {
+      var tradedBlock = d3.select("#topTradedList").append("div").classed("tradedBlock", true);
+      tradedBlock.append("div").text(d.ticker + " (" + Number(d.volume) + ")");
   });
   })
 

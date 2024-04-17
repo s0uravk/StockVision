@@ -318,3 +318,65 @@ body {
     opacity: 1;
   }
 }
+.multiselect {
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  display: none; /* Initially hide the checkboxes */
+}
+
+#checkboxes label {
+  display: block;
+  margin: 5px;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+
+#selectOps, #calcPanel {
+  width: 100%;
+  overflow: hidden;
+  background-color: #074a7e;
+  padding: 10px;
+  color: #ccc;
+  border: 1px solid #ccc;
+}
+
+#selectOps > div, #calcPanel > div {
+  display: inline-block; /* Display each div in a single line */
+  margin-right: 10px; /* Add spacing between items */
+  background-color: #0d6efd; /* Change background color */
+  padding: 5px; /* Add padding for better appearance */
+  border-radius: 5px; /* Add rounded corners */
+}
+
+    .row {
+      display: flex; /* Use flexbox for row layout */
+    }
+
+    .col-6 {
+      flex: 0 0 50%; /* Each column occupies half of the row */
+    }

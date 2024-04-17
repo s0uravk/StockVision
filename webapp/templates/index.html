@@ -111,13 +111,9 @@
     
       <div class="row jumbotron rounded-5">
 
-          <h1 class="display-5 fw-bold mx-auto text-center">Correlation Heatmap</h1>
+          <h1 class="display-5 fw-bold mx-auto text-center">Top Predicted stocks by Sector</h1>
 
-          <p class="fs-5 text-center position-relative">Correlation is a statistical measure that expresses the extent to which two variables are linearly related 
-            <br>(meaning they change together at a constant rate). 
-            <br>It is a common tool for describing simple relationships without making a statement about cause and effect.
-            <br>This visualization depicts the correlation between close price of stocks between Industries within a Sector.
-          </p>
+          <p class="fs-5 text-center position-relative"></p>
 
       </div>
 
@@ -126,11 +122,11 @@
 
           <div class = "col-3 ">
             <h5>Select Sector: </h5>
-              <select id="selDataset1" class = 'selectCSS' onchange="optionChanged1(this.value)"></select>
+              <select id="selDataset1" class = 'selectCSS' onchange="optionChanged(this.value)"></select>
           </div>
 
           <div class = "col-9 ">
-              <div id="heatmap" style="width: 800px; height: 600px;"></div>
+              <canvas id="top_preds" style="width: 400px; height: 400px;"></canvas>
           </div>        
         </div>  
       </div>

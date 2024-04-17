@@ -8,7 +8,12 @@ function init(){
     createChart(response, firstElement);
     news(firstElement);
     renderTopGainers();
-  })
+  });
+
+  d3.json('/api/v1.0/predicted_stock_data/summary').then(reponse => {
+    let firstSector = d3.select('#selDataset1').select('option').attr('value');
+    top_pred_stocks(reponse, firstSector);
+  });
 }
 
 //on change function
@@ -20,17 +25,30 @@ function optionChanged(){
 
     infoPanel(selDataset);
     createChart(response, selDataset);
-    news(selDataset)
-  })
+    news(selDataset);
+  });
+
+  let url1 = '/api/v1.0/predicted_stock_data/summary';
+  d3.json(url1).then(response => {
+    console.log(response)
+    let selSector = d3.select('#selDataset1').property('value');
+    top_pred_stocks(response, selSector);
+  });
 }
 //appending ticker to select tag
 d3.json('/api/v1.0/stock_data/summary').then(response =>{
 
   console.log('Start processing')
   tickers = response.map(row => row.Ticker);
+  const sectors = response.map(row => row.Sector);
+  const uniqueSectors = [...new Set(sectors)];
+
   console.log(tickers)
   tickers.forEach(ticker => {
     d3.select('#selDataset').append('option').text(ticker).attr('value', ticker);
+  });
+  uniqueSectors.forEach(sector => {
+    d3.select('#selDataset1').append('option').text(sector).attr('value', sector);
   });
   console.log('Finished processing')
 
@@ -168,39 +186,39 @@ function renderTopGainers() {
 
   d3.json(apiUrl).then(response=>{
     // console.log(response.top_gainers)
-    top_gainers = response.top_gainers
-    top_losers = response.top_losers
-    most_traded = response.most_actively_traded
+    // top_gainers = response.top_gainers
+    // top_losers = response.top_losers
+    // most_traded = response.most_actively_traded
     console.log(most_traded)
     //Test Data
-    // const top_gainers = [
-    //   { ticker: "AAPL", change_percentage: "5.223%" },
-    //   { ticker: "TSLA", change_percentage: "3.223%" },
-    //   { ticker: "MSFT", change_percentage: "4.5%" },
-    //   { ticker: "COOP", change_percentage: "5%" },
-    //   { ticker: "AMEX", change_percentage: "3%" },
-    //   { ticker: "DAL", change_percentage: "4.5%" },
-    //   { ticker: "BAC", change_percentage: "5%" },
-    //   { ticker: "MRNA", change_percentage: "3%" },
-    //   { ticker: "GM", change_percentage: "4.5%" },
-    //   { ticker: "RBC", change_percentage: "5%" },
-    //   { ticker: "TD", change_percentage: "3%" },
-    //   { ticker: "VISA", change_percentage: "4.5%" }
-    // ];
-    // const top_losers = [
-    //   { ticker: "IOT", change_percentage: "5.223%" },
-    //   { ticker: "JPM", change_percentage: "3.223%" },
-    //   { ticker: "DIS", change_percentage: "4.5%" },
-    //   { ticker: "NFLX", change_percentage: "5%" },
-    //   { ticker: "NVDA", change_percentage: "3%" },
-    //   { ticker: "ABC", change_percentage: "4.5%" },
-    //   { ticker: "OPA", change_percentage: "5%" },
-    //   { ticker: "LOL", change_percentage: "3%" },
-    //   { ticker: "UFT", change_percentage: "4.5%" },
-    //   { ticker: "UFM", change_percentage: "5%" },
-    //   { ticker: "SCOTIA", change_percentage: "3%" },
-    //   { ticker: "CLX", change_percentage: "4.5%" }
-    // ];
+    const top_gainers = [
+      { ticker: "AAPL", change_percentage: "5.223%" },
+      { ticker: "TSLA", change_percentage: "3.223%" },
+      { ticker: "MSFT", change_percentage: "4.5%" },
+      { ticker: "COOP", change_percentage: "5%" },
+      { ticker: "AMEX", change_percentage: "3%" },
+      { ticker: "DAL", change_percentage: "4.5%" },
+      { ticker: "BAC", change_percentage: "5%" },
+      { ticker: "MRNA", change_percentage: "3%" },
+      { ticker: "GM", change_percentage: "4.5%" },
+      { ticker: "RBC", change_percentage: "5%" },
+      { ticker: "TD", change_percentage: "3%" },
+      { ticker: "VISA", change_percentage: "4.5%" }
+    ];
+    const top_losers = [
+      { ticker: "IOT", change_percentage: "5.223%" },
+      { ticker: "JPM", change_percentage: "3.223%" },
+      { ticker: "DIS", change_percentage: "4.5%" },
+      { ticker: "NFLX", change_percentage: "5%" },
+      { ticker: "NVDA", change_percentage: "3%" },
+      { ticker: "ABC", change_percentage: "4.5%" },
+      { ticker: "OPA", change_percentage: "5%" },
+      { ticker: "LOL", change_percentage: "3%" },
+      { ticker: "UFT", change_percentage: "4.5%" },
+      { ticker: "UFM", change_percentage: "5%" },
+      { ticker: "SCOTIA", change_percentage: "3%" },
+      { ticker: "CLX", change_percentage: "4.5%" }
+    ];
      // Loop through top gainers data and create list items
     top_gainers.forEach(function(d) {
       var gainerBlock = d3.select("#topGainersList").append("div").classed("gainerBlock", true);
@@ -215,7 +233,47 @@ function renderTopGainers() {
       tradedBlock.append("div").text(d.ticker + " (" + Number(d.volume) + ")");
   });
   })
+}
 
+function top_pred_stocks(resp, choice){
+  let selData = resp.filter(row => row.Sector == choice);
+  labels = []
+  percentChange = []
+  selData.forEach(element =>{
+    change = parseFloat(element.Percent_Change.replace('%', ''));
+    percentChange.push(change);
+    labels.push(element.Ticker);
+    
+  })
+  const data = {
+    labels: labels,
+    datasets: [{
+      axis: 'y',
+      label: 'Top predicted stocks',
+      data: percentChange,
+      fill: false,
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderWidth: 1 }]
+
+  };
+  const config = {
+    type: 'bar',
+    data,
+    options: {
+      indexAxis: 'y',
+    }
+  };
+  // Get the canvas context
+  const canvas = d3.select('#top_preds').node();
+  const ctx = canvas.getContext('2d');
+
+  // Destroy existing chart if it exists
+  if (window.myChart instanceof Chart) {
+    window.myChart.destroy();
+  }
+
+  // Create a new chart
+  window.myChart = new Chart(ctx, config);
 
 }
 

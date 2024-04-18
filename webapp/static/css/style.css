@@ -28,7 +28,7 @@ body {
 }
 
 /* Selection panel styles */
-.selectCSS {
+.selectCSS{
   width: 100%;
   padding: 10px;
   font-size: 16px;
@@ -42,6 +42,7 @@ body {
 
 .selectCSS option {
   background-color:#074a7e;
+  color : white;
 }
 
 
@@ -181,15 +182,6 @@ body {
   margin-bottom: 5px;
 }
 
-#topGainersPanel {
-  width: 100%;
-  overflow: hidden;
-  background-color: #074a7e;
-  padding: 10px;
-  color: #ccc;
-  border: 1px solid #ccc;
-}
-
 #topGainersMarquee {
   display: flex;
   white-space: nowrap;
@@ -317,4 +309,65 @@ body {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+
+.selectBox {
+  position: relative;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px solid #dadada;
+  padding: 10px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+
+#selectOps, #calcPanel {
+  width: 100%;
+  overflow: hidden;
+  background-color: #074a7e;
+  padding: 10px;
+  color: #ccc;
+  border: 1px solid #ccc;
+}
+
+#selectOps > div, #calcPanel > div {
+  display: inline-block; /* Display each div in a single line */
+  margin-right: 10px; /* Add spacing between items */
+  background-color: #0d6efd; /* Change background color */
+  padding: 5px; /* Add padding for better appearance */
+  border-radius: 5px; /* Add rounded corners */
+}
+
+    .row {
+      display: flex; /* Use flexbox for row layout */
+    }
+
+    .col-6 {
+      flex: 0 0 50%; /* Each column occupies half of the row */
+    }
+label{
+  background-color:  #074a7e;
+  color : white;
+}
+
+#totalRisk, #totalReturn {
+  color: white;
 }

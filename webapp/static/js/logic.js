@@ -9,8 +9,8 @@ function init(){
     news(firstElement);
     renderTopGainers();
   });
-
-  d3.json('/api/v1.0/predicted_stock_data/summary').then(reponse => {
+  let url1 = '/api/v1.0/predicted_stock_data/summary';
+  d3.json(url1).then(reponse => {
     let firstSector = d3.select('#selDataset1').select('option').attr('value');
     top_pred_stocks(reponse, firstSector);
   });
@@ -25,7 +25,7 @@ function optionChanged(){
 
     infoPanel(selDataset);
     createChart(response, selDataset);
-    news(selDataset);
+    news(selDataset)
   });
 
   let url1 = '/api/v1.0/predicted_stock_data/summary';
@@ -35,6 +35,7 @@ function optionChanged(){
     top_pred_stocks(response, selSector);
   });
 }
+
 //appending ticker to select tag
 d3.json('/api/v1.0/stock_data/summary').then(response =>{
 
@@ -44,7 +45,7 @@ d3.json('/api/v1.0/stock_data/summary').then(response =>{
   const uniqueSectors = [...new Set(sectors)];
 
   console.log(tickers)
-  tickers.forEach(ticker => {
+ tickers.forEach(ticker => {
     d3.select('#selDataset').append('option').text(ticker).attr('value', ticker);
   });
   uniqueSectors.forEach(sector => {
@@ -189,7 +190,7 @@ function renderTopGainers() {
     // top_gainers = response.top_gainers
     // top_losers = response.top_losers
     // most_traded = response.most_actively_traded
-    console.log(most_traded)
+    // console.log(most_traded)
     //Test Data
     const top_gainers = [
       { ticker: "AAPL", change_percentage: "5.223%" },
@@ -233,7 +234,10 @@ function renderTopGainers() {
       tradedBlock.append("div").text(d.ticker + " (" + Number(d.volume) + ")");
   });
   })
+
+
 }
+
 
 function top_pred_stocks(resp, choice){
   let selData = resp.filter(row => row.Sector == choice);

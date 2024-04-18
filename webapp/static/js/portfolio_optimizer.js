@@ -1,3 +1,4 @@
+User
  // Stock data
 const stocks = [
   { code: "AAPL", name: "Apple Inc. (AAPL)", risk: 0.2, returnRate: 0.4 },
@@ -31,6 +32,8 @@ function updateSelectedOptions() {
     selectedStocks.push({ code: stock.code, name: stock.name, risk : stock.risk, returnRate : stock.returnRate });
     selectedColors.push(colorPalette[i % colorPalette.length]); // Cycle through color palette
   });
+
+  
   selectedOptionsDiv.selectAll("div")
     .data(selectedStocks)
     .enter()
@@ -57,6 +60,7 @@ function updateSelectedOptions() {
         .attr("class", "stockMultiplier")
         .attr("data-code", stock.code)
         .attr("placeholder", "Enter number of stocks")
+        .attr("value", "1")
         .on("input", function() {
           updateTotal();
         });
@@ -74,9 +78,17 @@ function removeStock(code) {
 function updateTotal() {
     const totalReturn = calculateTotalReturn();
     const totalRisk = calculateTotalRisk();
-    d3.select("#totalReturn").text(`Total Return: ${totalReturn}`);
-    d3.select("#totalRisk").text(`Total Risk: ${totalRisk}`);
+  
+    const selectedStocks = stocks.filter(stock => d3.select(`#${stock.code}`).property("checked"));
+    const selectedColors = selectedStocks.map((_, i) => colorPalette[i % colorPalette.length]);
+  
+    updateDoughnutCharts(selectedStocks, selectedColors);
+  
+    // Update the text displaying total return and risk
+    d3.select("#totalReturn").text(`Total Return: ${totalReturn.toFixed(2)}`); // using toFixed for formatting
+    d3.select("#totalRisk").text(`Total Risk: ${totalRisk.toFixed(2)}`);
   }
+  
 
   function calculateTotalReturn() {
     let totalReturn = 0;
@@ -99,19 +111,20 @@ function updateTotal() {
     });
     return totalRisk;
   }
-function updateDoughnutCharts(selectedStocks, selectedColors) {
-  const riskData = selectedStocks.map(stock => stock.risk);
-  const returnData = selectedStocks.map(stock => stock.returnRate);
-  const labels = selectedStocks.map(stock => stock.name);
-
-  // Update risk chart
-  updateDoughnutChart(riskData, labels, selectedColors, 'risk_chart');
-  summation(riskData, 'totalRisk', 'Risk');
-
-  // Update return rate chart
-  updateDoughnutChart(returnData, labels, selectedColors, 'return_chart');
-  summation(returnData, 'totalReturn', 'Return');
-}
+  function updateDoughnutCharts(selectedStocks, selectedColors) {
+    const quantities = selectedStocks.map(stock => {
+      const multiplierInput = d3.select(`input[data-code='${stock.code}']`).node();
+      return +multiplierInput.value || 1;  // Use 0 if the input is empty or invalid
+    });
+  
+    const riskData = selectedStocks.map((stock, i) => stock.risk * quantities[i]);
+    const returnData = selectedStocks.map((stock, i) => stock.returnRate * quantities[i]);
+    const labels = selectedStocks.map(stock => stock.name);
+  
+    updateDoughnutChart(riskData, labels, selectedColors, 'risk_chart');
+    updateDoughnutChart(returnData, labels, selectedColors, 'return_chart');
+  }
+  
 
 function summation(data, id, text) {
   const total = sum(data);

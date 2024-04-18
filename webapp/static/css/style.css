@@ -28,7 +28,7 @@ body {
 }
 
 /* Selection panel styles */
-.selectCSS {
+.selectCSS{
   width: 100%;
   padding: 10px;
   font-size: 16px;
@@ -42,6 +42,7 @@ body {
 
 .selectCSS option {
   background-color:#074a7e;
+  color : white;
 }
 
 
@@ -181,15 +182,6 @@ body {
   margin-bottom: 5px;
 }
 
-#topGainersPanel {
-  width: 100%;
-  overflow: hidden;
-  background-color: #074a7e;
-  padding: 10px;
-  color: #ccc;
-  border: 1px solid #ccc;
-}
-
 #topGainersMarquee {
   display: flex;
   white-space: nowrap;
@@ -318,18 +310,10 @@ body {
     opacity: 1;
   }
 }
-.multiselect {
-  width: 200px;
-  margin-bottom: 10px;
-}
+
 
 .selectBox {
   position: relative;
-}
-
-.selectBox select {
-  width: 100%;
-  font-weight: bold;
 }
 
 .overSelect {
@@ -341,15 +325,14 @@ body {
 }
 
 #checkboxes {
-  border: 1px solid #ccc;
-  max-height: 150px;
-  overflow-y: auto;
-  display: none; /* Initially hide the checkboxes */
+  display: none;
+  border: 1px solid #dadada;
+  padding: 10px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 #checkboxes label {
   display: block;
-  margin: 5px;
 }
 
 #checkboxes label:hover {
@@ -380,3 +363,11 @@ body {
     .col-6 {
       flex: 0 0 50%; /* Each column occupies half of the row */
     }
+label{
+  background-color:  #074a7e;
+  color : white;
+}
+
+#totalRisk, #totalReturn {
+  color: white;
+}

@@ -116,34 +116,43 @@
           <p class="fs-5 text-center position-relative"></p>
 
       </div>
+    </div>
 
-      <div class="container">
-        <div class="row" style="text-align: center;">
+    <div class="container">
+      <div class="row" style="text-align: center;">
 
-          <div class = "col-3 ">
-            <h5>Select Sector: </h5>
-              <select id="selDataset1" class = 'selectCSS' onchange="optionChanged(this.value)"></select>
-          </div>
+        <div class = "col-3">
+          <h5>Select Sector: </h5>
+            <select id="selDataset1" class = 'selectCSS' onchange="optionChanged(this.value)"></select>
+        </div>
 
-          <div class = "col-9 ">
-              <canvas id="top_preds" style="width: 400px; height: 400px;"></canvas>
-          </div>        
-        </div>  
-      </div>
+        <div class = "col-9">
+            <canvas id="top_preds" style="width: 400px; height: 400px;"></canvas>
+        </div>        
+      </div>  
     </div>
   </div>
 
   <!---Portfolio Opimizer-->
+  <div class="container">
+    
+    <div class="row jumbotron rounded-5">
+
+        <h1 class="display-5 fw-bold mx-auto text-center">Portfolio Optimizer</h1>
+
+        <p class="fs-5 text-center position-relative"></p>
+
+    </div>
   <div class = 'row'>
     <div class = 'col-12'>
       <div class="multiselect">
         <div class="selectBox" onclick="showCheckboxes()">
-          <select>
-            <option>Select an option</option>
+          <select id="hidden_select">
+            <option>Make your selections</option>
           </select>
           <div class="overSelect"></div>
         </div>
-        <div id="checkboxes"></div>
+        <div id="checkboxes" style="display:none;"></div>
       </div>
     </div>
   </div>
@@ -178,7 +187,7 @@
   <script src="{{url_for('static', filename = 'js/portfolio_optimizer.js')}}"></script>  <!-- Portfolio optimizers  -->
 
   <!-- <script src="{{url_for('static', filename = 'js/logic2.js')}}"></script>   <!--Doughnut Chart -->
-  <!-- <script src="../static/js/total_vol.js"></script>                         <!-- Grouped Bar Chart
+  <!-- <script src="../static/js/total_vol.js"></script>                         <!-- Grouped Bar Chart-->
  
 </body>
 

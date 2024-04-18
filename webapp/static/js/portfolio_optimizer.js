@@ -86,7 +86,7 @@ const stocks = [
         d3.select(this)
           .append("span")
           .attr("class", "remove-btn")
-          .text("❌")
+          .text("|✖")
           .on("click", function() {
             removeStock(d.code);
           });
@@ -95,22 +95,80 @@ const stocks = [
   
   function removeStock(code) {
     d3.select(`#${code}`).property("checked", false);
+    // Update the selected options after removing the stock
     updateSelectedOptions();
-  }
+    // Recalculate total return and total risk after updating selected options
+    updateTotal();
+}
+
+
  // Get references to the stock checkboxes and input fields
 const stockCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 const stockInputFields = document.querySelectorAll('input[type="number"]');
 
 // Initialize display on load
 document.addEventListener("DOMContentLoaded", function() {
-    updateSelectedOptions();
-    // Add event listener for initial calculation when user has only selected stocks
-    d3.selectAll("input[type=checkbox]").on("change", function() {
-        if (d3.selectAll("input[type=number]").empty()) {
-            updateTotal();
-        }
-    });
+  updateSelectedOptions();
+  
+  // Add event listener to trigger calculation when user selects stocks but hasn't entered number of stocks
+  d3.selectAll("input[type=checkbox]").on("change", function() {
+      if (d3.selectAll("input[type=number]").empty()) {
+          updateTotalDefault();
+      } else {
+          updateTotal(); // Update totals based on input values
+      }
+  });
+  
+  // Add event listener for subsequent calculations when user interacts with number of stocks inputs
+  d3.selectAll("input[type=number]").on("input", function() {
+      updateTotal(); // Update totals based on input values
+  });
 });
+
+
+function updateTotalDefault() {
+  let totalReturn = 0; // Initialize total return
+  let totalRisk = 0; // Initialize total risk
+
+  // Get the selected stocks
+  const selectedStocks = stocks.filter(stock => d3.select(`#${stock.code}`).property("checked"));
+  const selectedColors = selectedStocks.map((_, i) => colorPalette[i % colorPalette.length]);
+
+  // Calculate total return and total risk with default multiplier of 1 for each selected stock
+  selectedStocks.forEach(stock => {
+      const multiplierInput = d3.select(`input[data-code='${stock.code}']`).node();
+      let multiplier = 1; // Default multiplier for each stock
+
+      // Check if the input field for the number of stocks exists
+      if (multiplierInput) {
+          // Use the input value if it's valid and greater than 0
+          if (+multiplierInput.value > 0) {
+              multiplier = +multiplierInput.value;
+          }
+      }
+
+      // Add the risk and return, considering negative values
+      totalRisk += Math.max(0, stock.risk) * multiplier;
+      totalReturn += stock.returnRate * multiplier;
+  });
+
+  // Check for negative total return and adjust total risk accordingly
+  if (totalReturn < 0) {
+      totalRisk = Math.abs(totalRisk); // Take the absolute value of total risk
+  }
+
+  // If totalReturn or totalRisk is NaN (due to no selected stocks), set them to 0
+  totalReturn = isNaN(totalReturn) ? 0 : totalReturn;
+  totalRisk = isNaN(totalRisk) ? 0 : totalRisk;
+
+  // Update the doughnut charts
+  updateDoughnutCharts(selectedStocks, selectedColors);
+
+  // Update the text displaying total return and risk
+  d3.select("#totalReturn").text(`Total Return: ${totalReturn.toFixed(2)}%`); // using toFixed for formatting
+  d3.select("#totalRisk").text(`Total Risk: ${totalRisk.toFixed(2)}%`);
+}
+
 
 
 function updateTotal() {
@@ -125,20 +183,22 @@ function updateTotal() {
     selectedStocks.forEach(stock => {
         let multiplier = 1; // Default to 1 if the input is empty or invalid
         const multiplierInput = d3.select(`input[data-code='${stock.code}']`).node();
-        if (multiplierInput && +multiplierInput.value >= 0) {
-            multiplier = +multiplierInput.value; // Use the input value if it's valid and greater than or equal to 0
+        if (multiplierInput && +multiplierInput.value > 0) {
+            multiplier = +multiplierInput.value; // Use the input value if it's valid and greater than 0
         }
 
-        // Ensure multiplier is at least 1
-        multiplier = Math.max(1, multiplier);
+        // Ensure multiplier is not negative
+        multiplier = Math.max(0, multiplier);
 
         // Add the risk and return, considering negative values
         totalRisk += Math.max(0, stock.risk) * multiplier;
         totalReturn += stock.returnRate * multiplier;
     });
 
-    // Subtract negative returns from total return
-    totalReturn -= selectedStocks.reduce((sum, stock) => sum + Math.max(0, -stock.returnRate), 0);
+    // Check for negative total return and adjust total risk accordingly
+    if (totalReturn < 0) {
+        totalRisk = Math.abs(totalRisk); // Take the absolute value of total risk
+    }
 
     // If totalReturn or totalRisk is NaN (due to no selected stocks), set them to 0
     totalReturn = isNaN(totalReturn) ? 0 : totalReturn;
@@ -150,7 +210,14 @@ function updateTotal() {
     // Update the text displaying total return and risk
     d3.select("#totalReturn").text(`Total Return: ${totalReturn.toFixed(2)}%`); // using toFixed for formatting
     d3.select("#totalRisk").text(`Total Risk: ${totalRisk.toFixed(2)}%`);
+
+        // Show total risk and return even if no number of stocks input is present
+        if (selectedStocks.length === 0) {
+            d3.select("#totalReturn").text(`Total Return: 0.00%`);
+            d3.select("#totalRisk").text(`Total Risk: 0.00%`);
+        }
 }
+
 
 
   

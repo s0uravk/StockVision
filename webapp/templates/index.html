@@ -133,61 +133,50 @@
     </div>
   </div>
 
-  <!---Portfolio Opimizer-->
+  <!-- Portfolio Optimizer -->
   <div class="container">
-    
+
     <div class="row jumbotron rounded-5">
+      <h1 class="display-5 fw-bold mx-auto text-center">Portfolio Optimizer</h1>
+      <p class="fs-5 text-center position-relative"></p>
+    </div>
 
-        <h1 class="display-5 fw-bold mx-auto text-center">Portfolio Optimizer</h1>
-
-        <p class="fs-5 text-center position-relative"></p>
+    <div class="row">
+      <div class="col-12">
+        <div class="multiselect">
+          <div class="selectBox" onclick="showCheckboxes()">
+            <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes" style="display:none;"></div>
+        </div>
+      </div>
 
     </div>
-  <div class = 'row'>
-    <div class = 'col-12'>
-      <div class="multiselect">
-        <div class="selectBox" onclick="showCheckboxes()">
-          <select id="hidden_select">
-            <option>Make your selections</option>
-          </select>
-          <div class="overSelect"></div>
-        </div>
-        <div id="checkboxes" style="display:none;"></div>
+
+    <div class="row">
+      <div class="col-12">
+        <div id="calcPanel"></div>
       </div>
     </div>
-  </div>
-    
-  <div class = 'row'>
-     <div class = 'col-12'>
-      <div id = "selectOps"></div>
-     </div>
-  </div>
-    
-  <div class = 'row'>
-    <div class = 'col-12'>
-      <div id = "calcPanel"></div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <canvas id="return_chart"></canvas>
+        <h4 id="totalReturn"></h4>
+      </div>
+
+      <div class="col-sm-6">
+        <canvas id="risk_chart"></canvas>
+        <h4 id="totalRisk"></h4>
+      </div>    
     </div>
   </div>
-    
-  <div class = 'row'>
-    <div class = 'col-sm-6'>
-      <canvas id = "return_chart"></canvas>
-      <h4 id = 'totalReturn'></h4>
-    </div>
-    
-    <div class = 'col-sm-6'>
-        <canvas id = "risk_chart"></canvas>
-        <h4 id = 'totalRisk'></h4>
-    </div>    
-  </div>
+
     
   
   <!-- Our JavaScript files -->  
-  <!--<script src="{{url_for('static', filename = 'js/logic.js')}}"></script>   <!-- Line and Bar Chart -->
-  <script src="{{url_for('static', filename = 'js/portfolio_optimizer.js')}}"></script>  <!-- Portfolio optimizers  -->
-
-  <!-- <script src="{{url_for('static', filename = 'js/logic2.js')}}"></script>   <!--Doughnut Chart -->
-  <!-- <script src="../static/js/total_vol.js"></script>                         <!-- Grouped Bar Chart-->
+  <script src="{{url_for('static', filename = 'js/logic.js')}}"></script>   <!-- Line and Bar Chart -->
+  <script src="{{url_for('static', filename = 'js/portfolio_optimizer.js')}}"></script>  <!-- Portfolio optimizers  -->  
  
 </body>
 

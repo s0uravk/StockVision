@@ -314,8 +314,10 @@ body {
 
 .selectBox {
   position: relative;
+  display: inline-block; /* Make it inline-block to adjust width dynamically */
 }
 
+/* Dropdown button */
 .overSelect {
   position: absolute;
   left: 0;
@@ -323,12 +325,46 @@ body {
   top: 0;
   bottom: 0;
 }
+.multiselect .selectBox {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #074a7e;
+  border-radius: 5px;
+  background-color: #074a7e;
+  color: white;
+  outline: none;
+  cursor: pointer;
+}
+
+.multiselect .selectBox::after {
+  /* Styles for any pseudo-elements, like dropdown arrows, etc. */
+  content: '\25BC'; /* Down arrow */
+  float: right;
+  color: white;
+}
+
+.multiselect #checkboxes {
+  /* Styles for the checkbox container */
+  display: none; /* Hidden by default, show on .selectBox click */
+  background: #074a7e;
+  position: absolute;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 10;
+}
 
 #checkboxes {
   display: none;
+  position: absolute;
+  overflow-y: auto; /* Make the checkboxes scrollable */
+  max-height: 200px; /* Set a max height to limit the dropdown size */
   border: 1px solid #dadada;
   padding: 10px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1; /* Ensure the dropdown is above other content */
+  width: 60%; /* Set the width to 100% of the parent container */
 }
 
 #checkboxes label {
@@ -338,6 +374,7 @@ body {
 #checkboxes label:hover {
   background-color: #1e90ff;
 }
+
 
 #selectOps, #calcPanel {
   width: 100%;
@@ -356,18 +393,14 @@ body {
   border-radius: 5px; /* Add rounded corners */
 }
 
-    .row {
-      display: flex; /* Use flexbox for row layout */
-    }
-
-    .col-6 {
-      flex: 0 0 50%; /* Each column occupies half of the row */
-    }
 label{
   background-color:  #074a7e;
   color : white;
 }
 
 #totalRisk, #totalReturn {
-  color: white;
+  color: orangered;
+}
+.input-box {
+  width: 60px;
 }

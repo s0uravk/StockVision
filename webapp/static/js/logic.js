@@ -244,7 +244,7 @@ function top_pred_stocks(resp, choice){
   labels = []
   percentChange = []
   selData.forEach(element =>{
-    change = parseFloat(element.Percent_Change.replace('%', ''));
+    change = parseFloat(element.Return_rate.replace('%', ''));
     percentChange.push(change);
     labels.push(element.Ticker);
     

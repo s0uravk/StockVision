@@ -292,7 +292,8 @@ def pred_sum_data():
        Close_summary.Today_price,
        Close_summary.Predicted_price,
        Close_summary.Predicted_Change,
-       Close_summary.Percentage_Change,
+       Close_summary.Return_rate,
+       Close_summary.Risk_rate,
        Close_summary.Sector,
        Close_summary.Industry
     ]
@@ -308,7 +309,8 @@ def pred_sum_data():
             "Today's_Price": d.Today_price,
             "Predicted_Price" : d.Predicted_price,
             "Predicted_Change" : d.Predicted_Change,
-            "Percent_Change" : f'{round(d.Percentage_Change,2)}%'
+            "Return_rate" : f'{round(d.Return_rate,2)}%',
+            "Risk_rate" : f'{round(d.Risk_rate,2)}%'
         }
         pred_sum_ls.append(data1)
     session.close()

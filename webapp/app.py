@@ -28,6 +28,8 @@ Stocks = Base.classes.Final_Data
 Summary = Base.classes.Summary
 total_volume = Base.classes["Total_Volume"] 
 Industry_Volume = Base.classes.Industry_Volume
+Predicted_Stocks = Base.classes.data_with_prediction
+Close_summary = Base.classes.Predicted_Summary
 
 # #################################################
 # # Flask Routes
@@ -256,6 +258,61 @@ def sector_volume():
         ls.append(data)
     return(jsonify(ls))
 
+@app.route('/api/v1.0/predicted_stock_data')
+def pred_stock_data():
+    session = Session(bind = engine)
+    pred_data = [
+        Predicted_Stocks.Close,
+        Predicted_Stocks.Date,
+        Predicted_Stocks.Ticker,
+        Predicted_Stocks.Sector,
+        Predicted_Stocks.Industry
+    ]
+
+    data = session.query(*pred_data)
+
+    pred_ls = []
+    for d in data:
+        data1 = {
+            "Ticker" : d.Ticker,
+            "Sector" : d.Sector,
+            "Industry" : d.Industry,
+            "Date": d.Date,
+            "Close_Price": d.Close
+        }
+        pred_ls.append(data1)
+    session.close()
+    return (jsonify(pred_ls))
+
+@app.route('/api/v1.0/predicted_stock_data/summary')
+def pred_sum_data():
+    session = Session(bind = engine)
+    pred_sum_data = [
+       Close_summary.Ticker,
+       Close_summary.Today_price,
+       Close_summary.Predicted_price,
+       Close_summary.Predicted_Change,
+       Close_summary.Percentage_Change,
+       Close_summary.Sector,
+       Close_summary.Industry
+    ]
+
+    data = session.query(*pred_sum_data)
+
+    pred_sum_ls = []
+    for d in data:
+        data1 = {
+            "Ticker" : d.Ticker,
+            "Sector" : d.Sector,
+            "Industry" : d.Industry,
+            "Today's_Price": d.Today_price,
+            "Predicted_Price" : d.Predicted_price,
+            "Predicted_Change" : d.Predicted_Change,
+            "Percent_Change" : f'{round(d.Percentage_Change,2)}%'
+        }
+        pred_sum_ls.append(data1)
+    session.close()
+    return (jsonify(pred_sum_ls))
+
 if __name__ == '__main__':
     app.run(debug = True)
-    

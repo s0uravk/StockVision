@@ -5,8 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Stock Data Analysis</title>
+  <link rel="shortcut icon" type="image/png" href="../static/images/favicon.png">
 
+  <title>StockVision</title>
   <!-- D3 library -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
 
@@ -24,6 +25,8 @@
   <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.stock.min.js"></script>
   <script src="https://canvasjs.com/assets/script/jquery-ui.1.12.1.min.js"></script>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
   <!-- Canvas CSS-->
   <link rel="stylesheet" href="https://canvasjs.com/assets/css/jquery-ui.1.12.1.min.css">
   
@@ -40,39 +43,63 @@
   <div class="container">    
     
     <div class = "row">
-      <div class="jumbotron rounded-5">
-        <h1 class="display-4">Stock Insight Pro: Your Ultimate Stock Analysis Web App</h1>
-        <p class="lead">A webapp which analyze and visualize historical stock market data.</p>
-        <hr class="my-4">
-        <p>StockTrack Analyzer" is a sophisticated web application offering insightful visualizations
-           of historical stock data to aid investors in making informed decisions. Leveraging past
-            performance metrics such as average trading volume over the years and five-year stock 
-            performance trends, this platform provides users with valuable perspectives for assessing 
-            investment opportunities. While it doesn't offer real-time data or predictive analysis, 
-            "StockTrack Analyzer" focuses on illuminating historical patterns and trends to guide users
-             in understanding market dynamics and optimizing their investment strategies. Whether you're
-              a seasoned investor seeking deeper insights or a novice looking to learn from historical 
-              data, this platform equips you with the tools to navigate the stock market with clarity
-               and confidence.</p>
-        <p class="lead">
-      </p>
+      <div class="app-container">
+        <div class="overlay"></div>
+        <h1 class="app-name">StockVision</h1>
+        <p class="description">Predicting Profits with Precision.</p>
       </div>
     </div>
-
+    <div class="row">
+      <div id="topGainersPanel">
+          <h3>Top Gainers</h3>
+          <div id="topGainersMarquee">
+              <ul id="topGainersList"></ul>
+          </div>
+      </div>
+    </div>
+  
+    <div class = "row">
+      <div id="topLosersPanel">
+        <h3>Top Losers</h3>
+          <div id="topGainersMarquee">
+            <ul id="topLosersList"></ul>
+          </div>
+      </div>
+    </div>
+    <div class = "row">
+      <div id="topTradedPanel">
+        <h3>Top Traded</h3>
+          <div id="topGainersMarquee">
+            <ul id="topTradedList"></ul>
+          </div>
+      </div>
+    </div>
     <div class = "row">
       
-      <div class="col-3">
-        <h5>Ticker:</h5>
+      <div class="col-12">
+        <h5 style="color : #ccc;">Ticker:</h5>
         <select id = 'selDataset' class = 'selectCSS' onchange = "optionChanged(this.value)"></select> 
-      
+      </div>
+    </div>
+    <div class = "row">
+      <div class="col-3">
+            
         <div id = 'info'></div>
 
       </div>
-
       <div class="col-9">
-        <div style="color : white;">s</div>
+        <div style="color : #000508;">#</div>
         <!-- The div that holds our map -->
         <div id="line_chart"></div>
+      </div>
+    </div>
+    <div class = "row">
+      <div class="col-12">
+        <!-- The div that holds our news -->
+        <div id="news">
+          <h3 style="text-align: center;">Daily News Update</h3>
+          <hr>
+        </div>
       </div>
 
     </div>
@@ -84,111 +111,84 @@
     
       <div class="row jumbotron rounded-5">
 
-          <h1 class="display-5 fw-bold mx-auto text-center">Correlation Heatmap</h1>
+          <h1 class="display-5 fw-bold mx-auto text-center">Top Predicted stocks by Sector</h1>
 
-          <p class="fs-5 text-center position-relative">Correlation is a statistical measure that expresses the extent to which two variables are linearly related 
-            <br>(meaning they change together at a constant rate). 
-            <br>It is a common tool for describing simple relationships without making a statement about cause and effect.
-            <br>This visualization depicts the correlation between close price of stocks between Industries within a Sector.
-          </p>
+          <p class="fs-5 text-center position-relative"></p>
 
-      </div>
-
-      <div class="container">
-        <div class="row" style="text-align: center;">
-
-          <div class = "col-3 ">
-            <h5>Select Sector: </h5>
-              <select id="selDataset1" class = 'selectCSS' onchange="optionChanged1(this.value)"></select>
-          </div>
-
-          <div class = "col-9 ">
-              <div id="heatmap" style="width: 800px; height: 600px;"></div>
-          </div>        
-        </div>  
       </div>
     </div>
+
+    <div class="container">
+      <div class="row" style="text-align: center;">
+
+        <div class = "col-3">
+          <h5>Select Sector: </h5>
+            <select id="selDataset1" class = 'selectCSS' onchange="optionChanged(this.value)"></select>
+        </div>
+
+        <div class = "col-9">
+            <canvas id="top_preds" style="width: 400px; height: 400px;"></canvas>
+        </div>        
+      </div>  
+    </div>
   </div>
-  
+
+  <!---Portfolio Opimizer-->
   <div class="container">
     
     <div class="row jumbotron rounded-5">
 
-        <h1 class="display-5 fw-bold mx-auto text-center">Stock Volumes</h1>
+        <h1 class="display-5 fw-bold mx-auto text-center">Portfolio Optimizer</h1>
 
-        <p class="fs-5 text-center position-relative">The following graph displays stock volumes for tickers that 
-          returned the highest total volumes for the respective years. <br>
-          The volumes were summed by year and ticker, and each graph visualised by the individual sectors.
-        </p>
+        <p class="fs-5 text-center position-relative"></p>
 
     </div>
-  <div class="container">
-    <div class = "row" style="text-align: center;">
-      <!-- DROPDOWN -->
-      <div class="col-md-2">
-          <h5>Select Sector:</h5>
-          <select id="selSector" class = 'selectCSS' onchange="optionChanged2(this.value)"></select>
-      </div>
-
-      <!-- BAR GRAPH  -->
-      <div class="col-md-10">
-        <div id="plotly-chart">
-      </div>
-      <div class="row">
-        
+  <div class = 'row'>
+    <div class = 'col-12'>
+      <div class="multiselect">
+        <div class="selectBox" onclick="showCheckboxes()">
+          <select id="hidden_select">
+            <option>Make your selections</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes" style="display:none;"></div>
       </div>
     </div>
-    <div class="row jumbotron rounded-5">
-      <p class="fs-5 text-center position-relative"><small>
-        <h5>
-        <u><b>Automobiles</b></u><br>
-          Ford, AMD, and Tesla dominated trading volumes, with Tesla experiencing a substantial increase in production and volumes in 2023.
-        <br><br>
-        <u><b>Finance</b></u><br>
-          Morgan Stanley and Visa were the most traded stocks, with volumes increasing during the pandemic and reverting to lower than pre-pandemic levels afterward.
-        <br><br>
-        <u><b>Tech</b></u><br>
-          Apple witnessed a significant increase in volumes post-COVID, while Micron Tech had higher volumes than Apple before the pandemic.
-        <br><br>
-        <u><b>Healthcare</b></u><br>
-          Pfizer and Moderna emerged as the highest traded healthcare stocks, with Moderna experiencing a notable increase in production during the pandemic.
-        </h5>
-      </small></p>
-
-  </div>
   </div>
     
+  <div class = 'row'>
+     <div class = 'col-12'>
+      <div id = "selectOps"></div>
+     </div>
   </div>
-
-  <div class="container">
-    <div class="row jumbotron rounded-5">
-        <h1 class="display-5 fw-bold mx-auto text-center">Grand Portfolio Allocation by Sector based on Volume</h1>
-        <p class="fs-5 text-center position-relative">This analysis provides a comprehensive view of how the portfolio's volume is distributed among key sectors, offering insights into the relative importance of each sector in the overall portfolio.
-          The grand portfolio's volume is distributed across diverse sectors, each playing a crucial role in the overall composition.
-          The dominance of the Automobiles sector suggests a significant focus on activities related to the automotive industry.
-          Technology follows closely, underlining the importance of technological advancements in the overall portfolio.
-          Healthcare and Finance, while substantial, have comparatively smaller shares, contributing to a well-rounded and diversified portfolio.
-
-          
-        </p>
-    </div>
-  <div class = "row">
-    <div class="col-3">
-      <select id = 'sel_Sector' class = "selectCSS" onchange = "optionChanged3(this.value)"></select>
-      <!-- <div id = 'info'></div> -->
-    </div>
-    <div class="col-9">
-      <!-- The div that holds our map -->
-      <canvas id = "myChart" style="box-sizing: border-box; display: block; height: 400px; width: 400px;"></canvas>
+    
+  <div class = 'row'>
+    <div class = 'col-12'>
+      <div id = "calcPanel"></div>
     </div>
   </div>
+    
+  <div class = 'row'>
+    <div class = 'col-sm-6'>
+      <canvas id = "return_chart"></canvas>
+      <h4 id = 'totalReturn'></h4>
+    </div>
+    
+    <div class = 'col-sm-6'>
+        <canvas id = "risk_chart"></canvas>
+        <h4 id = 'totalRisk'></h4>
+    </div>    
+  </div>
+    
   
   <!-- Our JavaScript files -->  
-  <script src="{{url_for('static', filename = 'js/logic.js')}}"></script>   <!-- Candle Stick Chart -->
-  <script src="{{url_for('static', filename = 'js/logic2.js')}}"></script>  <!-- Doughnut Chart -->
-  <script src="{{url_for('static', filename = 'js/logic1.js')}}"></script>  <!-- Correlation Heatmap  -->
-  <script src="../static/js/total_vol.js"></script>                         <!-- Grouped Bar Chart -->
-  
+  <!--<script src="{{url_for('static', filename = 'js/logic.js')}}"></script>   <!-- Line and Bar Chart -->
+  <script src="{{url_for('static', filename = 'js/portfolio_optimizer.js')}}"></script>  <!-- Portfolio optimizers  -->
+
+  <!-- <script src="{{url_for('static', filename = 'js/logic2.js')}}"></script>   <!--Doughnut Chart -->
+  <!-- <script src="../static/js/total_vol.js"></script>                         <!-- Grouped Bar Chart-->
+ 
 </body>
 
 </html>

@@ -64,10 +64,12 @@ var colorPalette = generateDistinctColors(stocks.length);
 // Output the array of colors
 console.log(colorPalette);
 
+    
 // Initialize display on load
-document.addEventListener("DOMContentLoaded", function() {
-  updateSelectedOptions();
-});
+updateSelectedOptions(); // Move this call here
+
+// Call the function to set up event listeners
+setupEventListeners();
 
 function updateSelectedOptions() {
   const selectedOptionsDiv = d3.select("#selectOps");
@@ -269,15 +271,6 @@ function updateDoughnutCharts(selectedStocks, selectedColors) {
   updateDoughnutChart(returnData, labels, selectedColors, 'return_chart');
 }
 
-function summation(data, id, text) {
-  const total = sum(data);
-  d3.select(`#${id}`).text(`Total ${text}: ${total}`);
-}
-
-function sum(array) {
-  return array.reduce((acc, val) => acc + val, 0);
-}
-
 function updateDoughnutChart(data, labels, colors, chartId) {
   const config = {
     type: 'doughnut',
@@ -303,6 +296,24 @@ function updateDoughnutChart(data, labels, colors, chartId) {
   window[chartId] = new Chart(ctx, config);
 }
 
+// Function to set up event listeners
+function setupEventListeners() {
+  // Add event listener for checkboxes
+  d3.selectAll("input[type=checkbox]").on("change", function () {
+    updateTotal(); // Update totals based on input values
+  });
+
+  // Add event listener for number inputs
+  d3.selectAll("input[type=number]").on("input", function () {
+    updateTotal(); // Update totals based on input values
+  });
+}
+
+// Call the function to set up event listeners
+    setupEventListeners();
+  })
+  .catch(error => {
+    console.error('Error fetching data from the API:', error);
 
 
 });

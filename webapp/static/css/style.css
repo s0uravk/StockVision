@@ -54,7 +54,7 @@ body {
   padding: 30px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 400px; /* Adjust the height as needed */
+  height: auto; /* Adjust the height as needed */
 }
 
 #info h4 {
@@ -162,14 +162,16 @@ body {
   color: white;
 }
 /* Top Gainers panel styles */
-#topGainersPanel {
+#topGainersPanel, #topLosersPanel, #topTradedPanel {
   width: 100%;
   overflow: hidden;
   background-color: #074a7e;
   padding: 10px;
   color : #ccc;
   border: 1px solid #ccc;
+  border-radius: 5px;
 }
+
 #topGainersList{
   color: black;
 }
@@ -210,14 +212,6 @@ body {
   margin-bottom: 5px; /* Optional: adds space between the divs */
 }
 
-#topLosersPanel {
-  width: 100%;
-  overflow: hidden;
-  background-color: #074a7e;
-  padding: 10px;
-  color : #ccc;
-  border: 1px solid #ccc;
-}
 
 #topTradedList{
   color: black;
@@ -231,14 +225,6 @@ body {
   margin-bottom: 5px; /* Optional: adds space between the divs */
 }
 
-#topTradedPanel {
-  width: 100%;
-  overflow: hidden;
-  background-color: #074a7e;
-  padding: 10px;
-  color : #ccc;
-  border: 1px solid #ccc;
-}
 .app-container {
   position: relative; /* Make it a positioning context for absolute positioning */
   width: 100%;
@@ -324,6 +310,8 @@ body {
   right: 0;
   top: 0;
   bottom: 0;
+  text-align: center;
+  font-size: 16px;
 }
 .multiselect .selectBox {
   width: 100%;
@@ -383,6 +371,7 @@ body {
   padding: 10px;
   color: #ccc;
   border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 #selectOps > div, #calcPanel > div {
@@ -399,8 +388,53 @@ label{
 }
 
 #totalRisk, #totalReturn {
-  color: orangered;
+  color: white;
 }
 .input-box {
   width: 60px;
+}
+.flip-card {
+  background-color: transparent;
+  width: auto;
+  height: 60px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateX(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.flip-card-front {
+  background-color: #074a7e;
+  color: white;
+  font-size: 50px;
+}
+
+
+.flip-card-back {
+  background-color: #074a7e;
+  color: white;
+  transform: rotateX(180deg);
 }

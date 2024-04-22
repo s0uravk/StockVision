@@ -24,7 +24,7 @@ In today's dynamic financial markets, investors require reliable tools to analyz
 Train deep learning model, such as Long Short-Term memory (LSTM) networks, use historical stock data to predict future prices and trends. Evaluate model performance using
 appropriate metrics.
 - **Portfolio Construction:** Analyze historical stock data to identify high-performing stocks across various sectors/industries.
-- 
+
 ### 4. Deliverables:
 - Fully functional API built with Flask, providing access to stock data and predictions.
 - Interactive visualizations created using D3.js on the platform's index page.

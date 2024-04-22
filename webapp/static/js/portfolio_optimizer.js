@@ -36,7 +36,7 @@ function hslToRgb(h, s, l){
   var r, g, b;
 
   if(s == 0){
-    r = g = b = l; // Achromatic
+    r = g = b = l; 
   }else{
     function hue2rgb(p, q, t){
       if(t < 0) t += 1;
@@ -58,17 +58,14 @@ function hslToRgb(h, s, l){
 255).toString(16) + Math.round(b * 255).toString(16);
 }
 
-// Calling function in generateColors.js file
+// Call the function
 var colorPalette = generateDistinctColors(stocks.length);
-
-// Output the array of colors
-console.log(colorPalette);
 
     
 // Initialize display on load
-updateSelectedOptions(); // Move this call here
+updateSelectedOptions();
 
-// Call the function to set up event listeners
+// Call the function to setupEventListeners
 setupEventListeners();
 
 function updateSelectedOptions() {
@@ -130,16 +127,16 @@ updateDoughnutCharts(selectedStocks, selectedColors);
 }
 
 function removeStock(Ticker) {
-console.log(`Removing stock with ticker: ${Ticker}`);
-d3.select(`#${Ticker}`).property("checked", false);
-// Remove the item from selectOps
-d3.select(`#selectOps > div[data-ticker='${Ticker}']`).remove();
-// Remove the corresponding item from calcPanel
-d3.select(`#calcPanel > div[data-ticker='${Ticker}']`).remove();
-// Update the selected options after removing the stock
-updateSelectedOptions();
-// Recalculate total return and total risk after updating selected options
-updateTotal();
+  console.log(`Removing stock with ticker: ${Ticker}`);
+    d3.select(`#${Ticker}`).property("checked", false);
+    // Remove the item from selectOps
+    d3.select(`#selectOps > div[data-ticker='${Ticker}']`).remove();
+    // Remove the corresponding item from calcPanel
+    d3.select(`#calcPanel > div[data-ticker='${Ticker}']`).remove();
+    // Update the selected options after removing the stock
+    updateSelectedOptions();
+    // Recalculate total return and total risk after updating selected options
+    updateTotal();
 }
 
 
@@ -152,7 +149,7 @@ const stockInputFields = document.querySelectorAll('input[type="number"]');
 document.addEventListener("DOMContentLoaded", function() {
   updateSelectedOptions();
   
-  // Add event listener to trigger calculation when user selects stocks but hasn't entered number of stocks
+  // Event listener to trigger calculation when user selects stocks but hasn't entered number of stocks
   d3.selectAll("input[type=checkbox]").on("change", function() {
       if (d3.selectAll("input[type=number]").empty()) {
           updateTotalDefault();
@@ -161,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
   });
   
-  // Add event listener for subsequent calculations when user interacts with number of stocks inputs
+  // Event listener for subsequent calculations when user interacts with number of stocks inputs
   d3.selectAll("input[type=number]").on("input", function() {
       updateTotal(); // Update totals based on input values
   });

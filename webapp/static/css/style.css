@@ -187,7 +187,7 @@ body {
 #topGainersMarquee {
   display: flex;
   white-space: nowrap;
-  animation: scroll-left 15s linear infinite;
+  animation: scroll-left 45s linear infinite;
 }
 
 @keyframes scroll-left {
@@ -195,7 +195,7 @@ body {
     transform: translateX(0%);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(-170%);
   }
 }
 
@@ -258,13 +258,12 @@ body {
 
 .app-name {
   font-size: 5.5em;
-  z-index: 1; /* Ensure text is above the overlay */
-}
+  z-index: 1; }
 
 .description {
   font-size: 2.0em;
   margin-top: 20px;
-  z-index: 1; /* Ensure text is above the overlay */
+  z-index: 1; 
 }
 .app-name {
   opacity: 0; 

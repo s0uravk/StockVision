@@ -1,6 +1,6 @@
 //init function
 function init(){
-  let url = '/api/v1.0/stock_data'
+  let url = '/api/v1.0/predicted_stock_data'
   d3.json(url).then(function (response){
 
     let firstElement = d3.select('select').select('option').attr('value');
@@ -8,12 +8,17 @@ function init(){
     createChart(response, firstElement);
     news(firstElement);
     renderTopGainers();
-  })
+  });
+  let url1 = '/api/v1.0/predicted_stock_data/summary';
+  d3.json(url1).then(reponse => {
+    let firstSector = d3.select('#selDataset1').select('option').attr('value');
+    top_pred_stocks(reponse, firstSector);
+  });
 }
 
 //on change function
 function optionChanged(){
-  let url = '/api/v1.0/stock_data'
+  let url = '/api/v1.0/predicted_stock_data'
   d3.json(url).then(function (response){
 
     let selDataset = d3.select('#selDataset').property('value');
@@ -21,16 +26,30 @@ function optionChanged(){
     infoPanel(selDataset);
     createChart(response, selDataset);
     news(selDataset)
-  })
+  });
+
+  let url1 = '/api/v1.0/predicted_stock_data/summary';
+  d3.json(url1).then(response => {
+    console.log(response)
+    let selSector = d3.select('#selDataset1').property('value');
+    top_pred_stocks(response, selSector);
+  });
 }
+
 //appending ticker to select tag
 d3.json('/api/v1.0/stock_data/summary').then(response =>{
 
   console.log('Start processing')
   tickers = response.map(row => row.Ticker);
+  const sectors = response.map(row => row.Sector);
+  const uniqueSectors = [...new Set(sectors)];
+
   console.log(tickers)
-  tickers.forEach(ticker => {
+ tickers.forEach(ticker => {
     d3.select('#selDataset').append('option').text(ticker).attr('value', ticker);
+  });
+  uniqueSectors.forEach(sector => {
+    d3.select('#selDataset1').append('option').text(sector).attr('value', sector);
   });
   console.log('Finished processing')
 
@@ -42,29 +61,29 @@ function createChart(data, dataset){
   let selData = data.filter(row => row.Ticker == dataset);
 
   selData.forEach(element => {
-      let open = Number(element.Open);
-      let high = Number(element.High);
-      let low = Number(element.Low);
-      let close = Number(element.Close);
+      let close = Number(element.Close_Price);
       //dataPoints.push({x: new Date(data[i].date), y: Number(data[i].price)});
       dataPoints.push({x: new Date(element.Date), y: close});
       //dps2.push({x: new Date(element.Date), y: close});
       
   });
-  var thresholdDate = new Date(2022, 6, 6);
+  console.log(dataPoints)
+  // Get today's date
+ var today = new Date();
 
   // Create arrays to hold data points for each color range
   var dataPointsBeforeThreshold = [];
   var dataPointsAfterThreshold = [];
   
-  // Iterate through data points and separate them based on the threshold date
-  dataPoints.forEach(function(point) {
-    if (point.x <= thresholdDate) {
-      dataPointsBeforeThreshold.push(point); // Add to array for points before threshold
-    } else {
-      dataPointsAfterThreshold.push(point); // Add to array for points after threshold
-    }
-  });
+// Iterate through data points and separate them based on the threshold date
+dataPoints.forEach(function(point) {
+  if (point.x < today) {
+      dataPointsBeforeThreshold.push({x: point.x, y: point.y}); // Add to array for points before threshold
+  } else if (point.x >= today) {
+      dataPointsBeforeThreshold.push({x: point.x, y: point.y});
+      dataPointsAfterThreshold.push({x: point.x, y: point.y}); // Add to array for points after threshold
+  }
+});
   
   // Define the CanvasJS StockChart
   var stockChart = new CanvasJS.StockChart("line_chart", {
@@ -72,25 +91,43 @@ function createChart(data, dataset){
       text: `${dataset} Price (in USD)`
     },
     charts: [{
-      data: [{
-        type: "splineArea",
-        color: "blue", // Color for area before threshold
-        yValueFormatString: "$#,###.##",
-        dataPoints: dataPointsBeforeThreshold
-      }, {
-        type: "splineArea",
-        color: "cyan", // Color for area after threshold
-        yValueFormatString: "$#,###.##",
-        dataPoints: dataPointsAfterThreshold
-      }]
+        axisX: {
+            crosshair: {
+                enabled: true
+            }
+        },
+        axisY: {
+            prefix: "$",
+            title: "Stock price",
+            titleFontSize: 14
+        },
+        data: [{
+            type: "area",
+            xValueFormatString: "DD-MMM-YYYY",
+            yValueFormatString: "$#,###.##M",
+            dataPoints: dataPointsBeforeThreshold
+        }]
     }],
+
     navigator: {
       slider: {
-        minimum: new Date(2020, 11, 1),
-        maximum: new Date(2024, 2, 1)
+        minimum: dataPoints[0].x, // Assuming the first date in the dataset is the minimum
+        maximum: dataPoints[dataPoints.length - 1].x // Assuming the last date in the dataset is the maximum
+
       }
     }
   });
+
+  
+// Push the data for the second series (after threshold) to the chart's data array
+stockChart.options.charts[0].data.push({
+  type: "area",
+  xValueFormatString: "DD-MMM-YYYY",
+  yValueFormatString: "$#,###.##M",
+  dataPoints: dataPointsAfterThreshold,
+  color: "cyan" // Color for area after threshold
+});
+
   
   // Render the chart
   stockChart.render();
@@ -106,9 +143,15 @@ function infoPanel(dataset){
 
     // Extracting keys and values for the selected dataset
     let demoArrKey = Object.keys(response.filter(data => data.Ticker == dataset)[0]);
-    let demoArrVal = Object.values(response.filter(data => data.Ticker == dataset)[0]);   
+    let demoArrVal = Object.values(response.filter(data => data.Ticker == dataset)[0]);  
+    
+    // Removing ticker from demoArrKey
+    let index = demoArrKey.indexOf('Ticker');
+    if (index > -1) {
+      demoArrKey.splice(index, 1);
+    }
 
-    d3.select('#info').html('');
+    d3.select('#info').html(`<h5>Historic Performance(${dataset})</h5><hr>`);
 
   for (let i = 0; i < demoArrKey.length; i++) {
     d3.select('#info').append('div').text(`${demoArrKey[i]} : ${demoArrVal[i]}`)
@@ -167,40 +210,55 @@ function renderTopGainers() {
   console.log(apiUrl)
 
   d3.json(apiUrl).then(response=>{
-    // console.log(response.top_gainers)
-    top_gainers = response.top_gainers
-    top_losers = response.top_losers
-    most_traded = response.most_actively_traded
-    console.log(most_traded)
+
+    // top_gainers = response.top_gainers
+    // top_losers = response.top_losers
+    // most_traded = response.most_actively_traded
+    console.log(apiUrl)
     //Test Data
-    // const top_gainers = [
-    //   { ticker: "AAPL", change_percentage: "5.223%" },
-    //   { ticker: "TSLA", change_percentage: "3.223%" },
-    //   { ticker: "MSFT", change_percentage: "4.5%" },
-    //   { ticker: "COOP", change_percentage: "5%" },
-    //   { ticker: "AMEX", change_percentage: "3%" },
-    //   { ticker: "DAL", change_percentage: "4.5%" },
-    //   { ticker: "BAC", change_percentage: "5%" },
-    //   { ticker: "MRNA", change_percentage: "3%" },
-    //   { ticker: "GM", change_percentage: "4.5%" },
-    //   { ticker: "RBC", change_percentage: "5%" },
-    //   { ticker: "TD", change_percentage: "3%" },
-    //   { ticker: "VISA", change_percentage: "4.5%" }
-    // ];
-    // const top_losers = [
-    //   { ticker: "IOT", change_percentage: "5.223%" },
-    //   { ticker: "JPM", change_percentage: "3.223%" },
-    //   { ticker: "DIS", change_percentage: "4.5%" },
-    //   { ticker: "NFLX", change_percentage: "5%" },
-    //   { ticker: "NVDA", change_percentage: "3%" },
-    //   { ticker: "ABC", change_percentage: "4.5%" },
-    //   { ticker: "OPA", change_percentage: "5%" },
-    //   { ticker: "LOL", change_percentage: "3%" },
-    //   { ticker: "UFT", change_percentage: "4.5%" },
-    //   { ticker: "UFM", change_percentage: "5%" },
-    //   { ticker: "SCOTIA", change_percentage: "3%" },
-    //   { ticker: "CLX", change_percentage: "4.5%" }
-    // ];
+    const top_gainers = [
+      { ticker: "AAPL", change_percentage: "5.223%" },
+      { ticker: "TSLA", change_percentage: "3.223%" },
+      { ticker: "MSFT", change_percentage: "4.5%" },
+      { ticker: "COOP", change_percentage: "5%" },
+      { ticker: "AMEX", change_percentage: "3%" },
+      { ticker: "DAL", change_percentage: "4.5%" },
+      { ticker: "BAC", change_percentage: "5%" },
+      { ticker: "MRNA", change_percentage: "3%" },
+      { ticker: "GM", change_percentage: "4.5%" },
+      { ticker: "RBC", change_percentage: "5%" },
+      { ticker: "TD", change_percentage: "3%" },
+      { ticker: "VISA", change_percentage: "4.5%" }
+    ];
+    const top_losers = [
+      { ticker: "IOT", change_percentage: "5.223%" },
+      { ticker: "JPM", change_percentage: "3.223%" },
+      { ticker: "DIS", change_percentage: "4.5%" },
+      { ticker: "NFLX", change_percentage: "5%" },
+      { ticker: "NVDA", change_percentage: "3%" },
+      { ticker: "ABC", change_percentage: "4.5%" },
+      { ticker: "OPA", change_percentage: "5%" },
+      { ticker: "LOL", change_percentage: "3%" },
+      { ticker: "UFT", change_percentage: "4.5%" },
+      { ticker: "UFM", change_percentage: "5%" },
+      { ticker: "SCOTIA", change_percentage: "3%" },
+      { ticker: "CLX", change_percentage: "4.5%" }
+    ];
+    const most_traded = [
+      { "ticker": "IOT", "volume": 5223 },
+      { "ticker": "JPM", "volume": 3223 },
+      { "ticker": "DIS", "volume": 4500 },
+      { "ticker": "NFLX", "volume": 5000 },
+      { "ticker": "NVDA", "volume": 3000 },
+      { "ticker": "ABC", "volume": 4500 },
+      { "ticker": "OPA", "volume": 5000 },
+      { "ticker": "LOL", "volume": 3000 },
+      { "ticker": "UFT", "volume": 4500 },
+      { "ticker": "UFM", "volume": 5000 },
+      { "ticker": "SCOTIA", "volume": 3000 },
+      { "ticker": "CLX", "volume": 4500 }
+    ];
+        
      // Loop through top gainers data and create list items
     top_gainers.forEach(function(d) {
       var gainerBlock = d3.select("#topGainersList").append("div").classed("gainerBlock", true);
@@ -216,6 +274,49 @@ function renderTopGainers() {
   });
   })
 
+
+}
+
+
+function top_pred_stocks(resp, choice){
+  let selData = resp.filter(row => row.Sector == choice);
+  labels = []
+  percentChange = []
+  selData.forEach(element =>{
+    change = parseFloat(element.Return_rate.replace('%', ''));
+    percentChange.push(change);
+    labels.push(element.Ticker);
+    
+  })
+  const data = {
+    labels: labels,
+    datasets: [{
+      axis: 'y',
+      label: 'Top predicted stocks',
+      data: percentChange,
+      fill: false,
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      borderWidth: 1 }]
+
+  };
+  const config = {
+    type: 'bar',
+    data,
+    options: {
+      indexAxis: 'y',
+    }
+  };
+  // Get the canvas context
+  const canvas = d3.select('#top_preds').node();
+  const ctx = canvas.getContext('2d');
+
+  // Destroy existing chart if it exists
+  if (window.myChart instanceof Chart) {
+    window.myChart.destroy();
+  }
+
+  // Create a new chart
+  window.myChart = new Chart(ctx, config);
 
 }
 

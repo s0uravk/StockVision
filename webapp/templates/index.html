@@ -77,24 +77,28 @@
     <div class = "row">
       
       <div class="col-12">
-        <h5 style="color : #ccc;">Ticker:</h5>
+        <h5 style="color : #ccc;">Select Ticker:</h5>
         <select id = 'selDataset' class = 'selectCSS' onchange = "optionChanged(this.value)"></select> 
       </div>
     </div>
     <div class = "row">
-      <div class="col-3">
-            
-        <div id = 'info'></div>
 
-      </div>
-      <div class="col-9">
+
         <div style="color : #000508;">#</div>
         <!-- The div that holds our map -->
         <div id="line_chart"></div>
-      </div>
+
     </div>
     <div class = "row">
-      <div class="col-12">
+      <div class="col-4">
+            
+        <div id = 'info'>
+          <h5>Historic Performance</h5>
+          <hr>
+        </div>
+
+      </div>
+      <div class="col-8">
         <!-- The div that holds our news -->
         <div id="news">
           <h3 style="text-align: center;">Daily News Update</h3>
@@ -109,112 +113,85 @@
   <div class="p-5 mb-4 bg-body-white">
     <div class="container">
     
-      <div class="row jumbotron rounded-5">
-
-          <h1 class="display-5 fw-bold mx-auto text-center">Correlation Heatmap</h1>
-
-          <p class="fs-5 text-center position-relative">Correlation is a statistical measure that expresses the extent to which two variables are linearly related 
-            <br>(meaning they change together at a constant rate). 
-            <br>It is a common tool for describing simple relationships without making a statement about cause and effect.
-            <br>This visualization depicts the correlation between close price of stocks between Industries within a Sector.
-          </p>
-
-      </div>
-
-      <div class="container">
-        <div class="row" style="text-align: center;">
-
-          <div class = "col-3 ">
-            <h5>Select Sector: </h5>
-              <select id="selDataset1" class = 'selectCSS' onchange="optionChanged1(this.value)"></select>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h4>Top predicted stocks</h4>
           </div>
-
-          <div class = "col-9 ">
-              <div id="heatmap" style="width: 800px; height: 600px;"></div>
-          </div>        
-        </div>  
+          <div class="flip-card-back">
+            <p>This chart illustrates the predicted percentage change in closing price.</p>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="container">
+      <div class="row" style="text-align: center;">
+
+        <div class = "col-3">
+          <h5 style="color : #ccc; text-align: left;">Select Sector: </h5>
+            <select id="selDataset1" class = 'selectCSS' onchange="optionChanged(this.value)"></select>
+        </div>
+
+        <div class = "col-9">
+            <canvas id="top_preds" style="width: 400px; height: 400px;"></canvas>
+        </div>        
+      </div>  
+    </div>
   </div>
-  
+
+  <!-- Portfolio Optimizer -->
   <div class="container">
+
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h2>Portfolio Optimizer</h2>
+          </div>
+          <div class="flip-card-back">
+            <p> Our tools simplify the process, helping you find the best stocks for your portfolio by weighing both returns and risks.            </p>
+          </div>
+        </div>
+      </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="multiselect">
+          <div class="selectBox" onclick="showCheckboxes()">
+            <div class="overSelect">Make your selections</div>
+          </div>
+          <div id="checkboxes" style="display:none;"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div id="calcPanel"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <canvas id="return_chart"></canvas>
+        <h4 id="totalReturn"></h4>
+      </div>
+
+      <div class="col-sm-6">
+        <canvas id="risk_chart"></canvas>
+        <h4 id="totalRisk"></h4>
+      </div>    
+    </div>
+  </div>
+
     
-    <div class="row jumbotron rounded-5">
-
-        <h1 class="display-5 fw-bold mx-auto text-center">Stock Volumes</h1>
-
-        <p class="fs-5 text-center position-relative">The following graph displays stock volumes for tickers that 
-          returned the highest total volumes for the respective years. <br>
-          The volumes were summed by year and ticker, and each graph visualised by the individual sectors.
-        </p>
-
-    </div>
-  <div class="container">
-    <div class = "row" style="text-align: center;">
-      <!-- DROPDOWN -->
-      <div class="col-md-2">
-          <h5>Select Sector:</h5>
-          <select id="selSector" class = 'selectCSS' onchange="optionChanged2(this.value)"></select>
-      </div>
-
-      <!-- BAR GRAPH  -->
-      <div class="col-md-10">
-        <div id="plotly-chart">
-      </div>
-      <div class="row">
-        
-      </div>
-    </div>
-    <div class="row jumbotron rounded-5">
-      <p class="fs-5 text-center position-relative"><small>
-        <h5>
-        <u><b>Automobiles</b></u><br>
-          Ford, AMD, and Tesla dominated trading volumes, with Tesla experiencing a substantial increase in production and volumes in 2023.
-        <br><br>
-        <u><b>Finance</b></u><br>
-          Morgan Stanley and Visa were the most traded stocks, with volumes increasing during the pandemic and reverting to lower than pre-pandemic levels afterward.
-        <br><br>
-        <u><b>Tech</b></u><br>
-          Apple witnessed a significant increase in volumes post-COVID, while Micron Tech had higher volumes than Apple before the pandemic.
-        <br><br>
-        <u><b>Healthcare</b></u><br>
-          Pfizer and Moderna emerged as the highest traded healthcare stocks, with Moderna experiencing a notable increase in production during the pandemic.
-        </h5>
-      </small></p>
-
-  </div>
-  </div>
-    
-  </div>
-
-  <div class="container">
-    <div class="row jumbotron rounded-5">
-        <h1 class="display-5 fw-bold mx-auto text-center">Grand Portfolio Allocation by Sector based on Volume</h1>
-        <p class="fs-5 text-center position-relative">This analysis provides a comprehensive view of how the portfolio's volume is distributed among key sectors, offering insights into the relative importance of each sector in the overall portfolio.
-          The grand portfolio's volume is distributed across diverse sectors, each playing a crucial role in the overall composition.
-          The dominance of the Automobiles sector suggests a significant focus on activities related to the automotive industry.
-          Technology follows closely, underlining the importance of technological advancements in the overall portfolio.
-          Healthcare and Finance, while substantial, have comparatively smaller shares, contributing to a well-rounded and diversified portfolio.
-
-          
-        </p>
-    </div>
-  <div class = "row">
-    <div class="col-3">
-      <select id = 'sel_Sector' class = "selectCSS" onchange = "optionChanged3(this.value)"></select>
-      <!-- <div id = 'info'></div> -->
-    </div>
-    <div class="col-9">
-      <!-- The div that holds our map -->
-      <canvas id = "myChart" style="box-sizing: border-box; display: block; height: 400px; width: 400px;"></canvas>
-    </div>
-  </div>
   
   <!-- Our JavaScript files -->  
-  <script src="{{url_for('static', filename = 'js/logic.js')}}"></script>   <!-- Candle Stick Chart -->
-  <!-- <script src="{{url_for('static', filename = 'js/logic2.js')}}"></script>   <!--Doughnut Chart -->
-  <!-- <script src="{{url_for('static', filename = 'js/logic1.js')}}"></script>  <!-- Correlation Heatmap  -->
-  <!-- <script src="../static/js/total_vol.js"></script>                         <!-- Grouped Bar Chart
+  <script src="{{url_for('static', filename = 'js/logic.js')}}"></script>   <!-- Line and Bar Chart -->
+  <script src="{{url_for('static', filename = 'js/portfolio_optimizer.js')}}"></script>  <!-- Portfolio optimizers  -->  
  
 </body>
 

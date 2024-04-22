@@ -39,7 +39,6 @@ function optionChanged(){
 //appending ticker to select tag
 d3.json('/api/v1.0/stock_data/summary').then(response =>{
 
-  console.log('Start processing')
   tickers = response.map(row => row.Ticker);
   const sectors = response.map(row => row.Sector);
   const uniqueSectors = [...new Set(sectors)];
@@ -51,7 +50,6 @@ d3.json('/api/v1.0/stock_data/summary').then(response =>{
   uniqueSectors.forEach(sector => {
     d3.select('#selDataset1').append('option').text(sector).attr('value', sector);
   });
-  console.log('Finished processing')
 
 });
 
@@ -67,7 +65,7 @@ function createChart(data, dataset){
       //dps2.push({x: new Date(element.Date), y: close});
       
   });
-  console.log(dataPoints)
+
   // Get today's date
  var today = new Date();
 
@@ -104,7 +102,7 @@ dataPoints.forEach(function(point) {
         data: [{
             type: "area",
             xValueFormatString: "DD-MMM-YYYY",
-            yValueFormatString: "$#,###.##M",
+            yValueFormatString: "$#,###.##",
             dataPoints: dataPointsBeforeThreshold
         }]
     }],
@@ -174,11 +172,11 @@ function news(dataset){
   apiKey = 'cockid1r01qknpft0bpgcockid1r01qknpft0bq0'
   // Define the API endpoint URL
   var apiUrl = `https://finnhub.io/api/v1/company-news?symbol=${dataset}&from=${formatted_from_date}&to=${formatted_today}&token=${apiKey}`;
-  console.log(apiUrl)
+
   // Make an HTTP GET request to fetch the data
   d3.json(apiUrl).then(function(response) {
-      // Handle the fetched data here
-      console.log(response);
+
+      // Clear news panel first
       d3.select('#news').html('');
 
       // Create a div element to display the extracted data
@@ -207,14 +205,13 @@ function renderTopGainers() {
   api_key = '0FE1BNEKXM2YALTG'
   // Define the API endpoint URL
   var apiUrl = `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=${api_key}`;
-  console.log(apiUrl)
 
   d3.json(apiUrl).then(response=>{
 
     // top_gainers = response.top_gainers
     // top_losers = response.top_losers
     // most_traded = response.most_actively_traded
-    console.log(apiUrl)
+
     //Test Data
     const top_gainers = [
       { ticker: "AAPL", change_percentage: "5.223%" },
@@ -277,7 +274,7 @@ function renderTopGainers() {
 
 }
 
-
+// Function Definition for bar chart
 function top_pred_stocks(resp, choice){
   let selData = resp.filter(row => row.Sector == choice);
   labels = []
@@ -288,6 +285,15 @@ function top_pred_stocks(resp, choice){
     labels.push(element.Ticker);
     
   })
+    // Define an array to hold colors based on values
+  const colors = percentChange.map(change => {
+    if (change >= 0) {
+      return 'rgba(30, 144, 255, 2.5)'; // Blue for positive values
+    } else {
+      return 'rgba(255, 0, 0, 2.5)'; // Red for negative values
+    }
+  });
+
   const data = {
     labels: labels,
     datasets: [{
@@ -295,7 +301,7 @@ function top_pred_stocks(resp, choice){
       label: 'Top predicted stocks',
       data: percentChange,
       fill: false,
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      backgroundColor: colors,
       borderWidth: 1 }]
 
   };
@@ -304,6 +310,26 @@ function top_pred_stocks(resp, choice){
     data,
     options: {
       indexAxis: 'y',
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Percent Change',
+            font: {
+              size: 30 
+            }
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Ticker',
+            font: {
+              size: 30
+            }
+          }
+        }
+      },
     }
   };
   // Get the canvas context

@@ -208,54 +208,10 @@ function renderTopGainers() {
 
   d3.json(apiUrl).then(response=>{
 
-    // top_gainers = response.top_gainers
-    // top_losers = response.top_losers
-    // most_traded = response.most_actively_traded
+    top_gainers = response.top_gainers
+    top_losers = response.top_losers
+    most_traded = response.most_actively_traded
 
-    //Test Data
-    const top_gainers = [
-      { ticker: "AAPL", change_percentage: "5.223%" },
-      { ticker: "TSLA", change_percentage: "3.223%" },
-      { ticker: "MSFT", change_percentage: "4.5%" },
-      { ticker: "COOP", change_percentage: "5%" },
-      { ticker: "AMEX", change_percentage: "3%" },
-      { ticker: "DAL", change_percentage: "4.5%" },
-      { ticker: "BAC", change_percentage: "5%" },
-      { ticker: "MRNA", change_percentage: "3%" },
-      { ticker: "GM", change_percentage: "4.5%" },
-      { ticker: "RBC", change_percentage: "5%" },
-      { ticker: "TD", change_percentage: "3%" },
-      { ticker: "VISA", change_percentage: "4.5%" }
-    ];
-    const top_losers = [
-      { ticker: "IOT", change_percentage: "5.223%" },
-      { ticker: "JPM", change_percentage: "3.223%" },
-      { ticker: "DIS", change_percentage: "4.5%" },
-      { ticker: "NFLX", change_percentage: "5%" },
-      { ticker: "NVDA", change_percentage: "3%" },
-      { ticker: "ABC", change_percentage: "4.5%" },
-      { ticker: "OPA", change_percentage: "5%" },
-      { ticker: "LOL", change_percentage: "3%" },
-      { ticker: "UFT", change_percentage: "4.5%" },
-      { ticker: "UFM", change_percentage: "5%" },
-      { ticker: "SCOTIA", change_percentage: "3%" },
-      { ticker: "CLX", change_percentage: "4.5%" }
-    ];
-    const most_traded = [
-      { "ticker": "IOT", "volume": 5223 },
-      { "ticker": "JPM", "volume": 3223 },
-      { "ticker": "DIS", "volume": 4500 },
-      { "ticker": "NFLX", "volume": 5000 },
-      { "ticker": "NVDA", "volume": 3000 },
-      { "ticker": "ABC", "volume": 4500 },
-      { "ticker": "OPA", "volume": 5000 },
-      { "ticker": "LOL", "volume": 3000 },
-      { "ticker": "UFT", "volume": 4500 },
-      { "ticker": "UFM", "volume": 5000 },
-      { "ticker": "SCOTIA", "volume": 3000 },
-      { "ticker": "CLX", "volume": 4500 }
-    ];
-        
      // Loop through top gainers data and create list items
     top_gainers.forEach(function(d) {
       var gainerBlock = d3.select("#topGainersList").append("div").classed("gainerBlock", true);

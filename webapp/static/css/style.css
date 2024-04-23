@@ -10,6 +10,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  align-items: center;
 }
 
 .row {
@@ -371,3 +372,76 @@ label{
 #totalRisk, #totalReturn {
   color: white;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#iframeDiv {
+  position: absolute;
+  top : 50%;
+  left : 50%;
+  transform : translate(-50%, -50%);
+ }

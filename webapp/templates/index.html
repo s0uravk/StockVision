@@ -8,16 +8,9 @@
   <link rel="shortcut icon" type="image/png" href="../static/images/favicon.png">
 
   <title>StockVision</title>
+  
   <!-- D3 library -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
-
-  <!-- Plotly library -->
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="https://cdn.plot.ly/plotly-2.29.1.min.js" charset="utf-8"></script>
-  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-  
-  <!-- Heatmap library -->
-  <script src="https://unpkg.com/heatmap.js"></script>
 
   <!-- Canvas Library -->
   <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
@@ -77,24 +70,28 @@
     <div class = "row">
       
       <div class="col-12">
-        <h5 style="color : #ccc;">Ticker:</h5>
+        <h5 style="color : #ccc;">Select Ticker:</h5>
         <select id = 'selDataset' class = 'selectCSS' onchange = "optionChanged(this.value)"></select> 
       </div>
     </div>
     <div class = "row">
-      <div class="col-3">
-            
-        <div id = 'info'></div>
 
-      </div>
-      <div class="col-9">
+
         <div style="color : #000508;">#</div>
         <!-- The div that holds our map -->
         <div id="line_chart"></div>
-      </div>
+
     </div>
     <div class = "row">
-      <div class="col-12">
+      <div class="col-4">
+            
+        <div id = 'info'>
+          <h5>Historic Performance</h5>
+          <hr>
+        </div>
+
+      </div>
+      <div class="col-8">
         <!-- The div that holds our news -->
         <div id="news">
           <h3 style="text-align: center;">Daily News Update</h3>
@@ -105,16 +102,18 @@
     </div>
   </div>
 
-  <!-- Jumbotron script -->
   <div class="p-5 mb-4 bg-body-white">
     <div class="container">
     
-      <div class="row jumbotron rounded-5">
-
-          <h1 class="display-5 fw-bold mx-auto text-center">Top Predicted stocks by Sector</h1>
-
-          <p class="fs-5 text-center position-relative"></p>
-
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h4>Top predicted stocks</h4>
+          </div>
+          <div class="flip-card-back">
+            <p>This chart illustrates the predicted percentage change in closing price.</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -122,7 +121,7 @@
       <div class="row" style="text-align: center;">
 
         <div class = "col-3">
-          <h5>Select Sector: </h5>
+          <h5 style="color : #ccc; text-align: left;">Select Sector: </h5>
             <select id="selDataset1" class = 'selectCSS' onchange="optionChanged(this.value)"></select>
         </div>
 
@@ -133,39 +132,50 @@
     </div>
   </div>
 
-  <!---Portfolio Opimizer-->
+  <!-- Portfolio Optimizer -->
   <div class="container">
-    
-    <div class="row jumbotron rounded-5">
 
-        <h1 class="display-5 fw-bold mx-auto text-center">Portfolio Optimizer</h1>
 
-        <p class="fs-5 text-center position-relative"></p>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <h2>Portfolio Optimizer</h2>
+          </div>
+          <div class="flip-card-back">
+            <p>Our tools simplify the process, helping you find the best stocks for your portfolio by weighing both returns and risks.</p>
+          </div>
+        </div>
+      </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="multiselect">
+          <div class="selectBox" onclick="showCheckboxes()">
+            <div class="overSelect">Make your selections</div>
+          </div>
+          <div id="checkboxes" style="display:none;"></div>
+        </div>
+      </div>
 
     </div>
-  <div class = 'row'>
-    <div class = 'col-12'>
-      <div class="multiselect">
-        <div class="selectBox" onclick="showCheckboxes()">
-          <select id="hidden_select">
-            <option>Make your selections</option>
-          </select>
-          <div class="overSelect"></div>
-        </div>
-        <div id="checkboxes" style="display:none;"></div>
+
+    <div class="row">
+      <div class="col-12">
+        <div id="calcPanel"></div>
       </div>
     </div>
-  </div>
-    
-  <div class = 'row'>
-     <div class = 'col-12'>
-      <div id = "selectOps"></div>
-     </div>
-  </div>
-    
-  <div class = 'row'>
-    <div class = 'col-12'>
-      <div id = "calcPanel"></div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <canvas id="return_chart"></canvas>
+        <h4 id="totalReturn"></h4>
+      </div>
+
+      <div class="col-sm-6">
+        <canvas id="risk_chart"></canvas>
+        <h4 id="totalRisk"></h4>
+      </div>    
     </div>
   </div>
     

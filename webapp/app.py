@@ -1,5 +1,4 @@
 # Import the dependencies.
-
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
@@ -253,7 +252,7 @@ def sector_volume():
         data = {
             'Industry' : d.industry,
             'Sector' : d.sector,
-	    'Total_Volume' : d.total_volume
+            'Total_Volume' : d.total_volume
         }
         ls.append(data)
     return(jsonify(ls))

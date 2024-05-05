@@ -121,7 +121,7 @@ dataPoints.forEach(function(point) {
 stockChart.options.charts[0].data.push({
   type: "area",
   xValueFormatString: "DD-MMM-YYYY",
-  yValueFormatString: "$#,###.##M",
+  yValueFormatString: "$#,###.##",
   dataPoints: dataPointsAfterThreshold,
   color: "cyan" // Color for area after threshold
 });

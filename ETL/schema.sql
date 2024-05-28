@@ -55,7 +55,8 @@ CREATE TABLE "Automotive" (
 );
 
 
-SELECT * FROM "Automotive"
+SELECT * FROM "Automotive";
+
 ALTER TABLE "Automotive"
 RENAME COLUMN "date" TO "Date";
 

@@ -1,4 +1,5 @@
 api_key = 'JCKWIBVETNVIDURE'
-username = 'stock_analysis_user'
-password = 'b2Qc7nHf8bW60JjeftiuI2gkZWmGFjxT'
-host_address = 'dpg-cncljaev3ddc73c7nbjg-a.oregon-postgres.render.com'
+username = 'stockvision_user'
+password = 'cgsgXzaBYvACHog9iWP147bODqXvW8Zg'
+host_address = 'dpg-cp9su5kf7o1s73a6evf0-a.oregon-postgres.render.com'
+datbase_name = 'stockvision'

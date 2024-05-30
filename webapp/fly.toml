@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for stockvision-aged-haze-7926 on 2024-05-05T15:12:06-04:00
+# fly.toml app configuration file generated for stockvision-aged-haze-7927 on 2024-05-30T19:08:18-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'stockvision-aged-haze-7926'
+app = 'stockvision-aged-haze-7927'
 primary_region = 'yyz'
 
 [build]

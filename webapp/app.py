@@ -3,14 +3,14 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from flask import Flask, jsonify, render_template
-from config import username, password, host_address
+from config import username, password, host_address, datbase_name
 
 
 #################################################
 # Database Setup
 #################################################
 
-cxn_string = f'postgresql+psycopg2://{username}:{password}@{host_address}/stock_analysis'
+cxn_string = f'postgresql+psycopg2://{username}:{password}@{host_address}/{datbase_name}'
 # Create the SQLAlchemy engine
 engine = create_engine(cxn_string, echo = False)
 

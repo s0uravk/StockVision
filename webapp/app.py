@@ -11,6 +11,8 @@ from config import username, password, host_address, datbase_name
 #################################################
 
 cxn_string = f'postgresql+psycopg2://{username}:{password}@{host_address}/{datbase_name}'
+
+
 # Create the SQLAlchemy engine
 engine = create_engine(cxn_string, echo = False)
 

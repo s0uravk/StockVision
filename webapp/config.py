@@ -1,5 +1,0 @@
-api_key = 'JCKWIBVETNVIDURE'
-username = 'stockvision_r94d_user'
-password = 'uYiuUQinsSlZIpEfEXSE55Ob3IwgRssL'
-host_address = 'dpg-cv7oanan91rc739dmqn0-a.oregon-postgres.render.com'
-datbase_name = 'stockvision_r94d'
